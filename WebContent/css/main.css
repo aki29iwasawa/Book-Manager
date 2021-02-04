@@ -1,0 +1,42 @@
+@charset "UTF-8";
+body {
+    background-color: #E3DAD0;
+}
+
+article {
+    background-color: rgba(255, 255, 255, 0.700);
+    margin: 0 auto;
+    max-width: 700px;
+    min-width: 350px;
+	height: 100%;	
+    border-radius: 10px;
+    padding: 10px 30px 20px 30px;
+    color: rgb(70, 70, 70);
+}
+
+h2{
+	font-size: 20px;
+}
+
+table{
+	width: 90%;
+	margin:20px;
+}
+
+th{
+	text-align:left;
+	margin:15px;
+}
+
+
+img {
+    display: block;
+    margin: 0 auto;
+    width: 180px;
+    height: 180px;
+}
+
+.center{
+
+	text-align: center;
+}
