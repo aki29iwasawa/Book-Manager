@@ -17,11 +17,17 @@ public class BookLogic {
 		return rs;
 	}
 	
-	//本を追加
+	//書籍情報を更新
 	public boolean updateBook(Book book){
 		BookDAO dao = new BookDAO();
 		boolean nBook = dao.updateBook(book);
 		return nBook;
+	}
+
+	public boolean addBook(Book nbook) {
+		BookDAO dao = new BookDAO();
+		boolean rs = dao.addBookData(nbook);
+		return rs;
 	}
 }
 

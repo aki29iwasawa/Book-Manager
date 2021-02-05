@@ -15,21 +15,25 @@
 		<h1>マイページ</h1>
 		
 		<h2 class="center">アカウント情報</h2>
-		<button>アカウント情報の編集</button>
+		
+		<form action="/bm/BmServlet" method="post">
+		<button>アカウント情報の編集・削除</button>
+		<input type="hidden" name="action" value="editUser">
+		<input type="hidden" name="id" value="${id}">
+		</form>
+		
 		<p>${mess}</p>
 		<p>ユーザーID</p>
 		<p>${id}</p>
 		<p>メールアドレス</p>
 		<p>${mail}</p>
-		<p>パスワード</p>
-		<p>${pass}</p>
 		
 		<h2 class="center">あなたの本棚</h2>
 		
 		<form action="/bm/BmServlet" method="post">
 		<button>書籍を追加</button>
-		<input type="hidden" name="action" value="addNewBook">
-		<input type="hidden" name="bookID" value="${id}">
+		<input type="hidden" name="action" value="AddBook">
+		<input type="hidden" name="id" value="${id}">
 		</form>
 		
 		<table>

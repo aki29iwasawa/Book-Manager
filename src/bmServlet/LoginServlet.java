@@ -64,16 +64,18 @@ public class LoginServlet extends HttpServlet {
 		System.out.println(response.getCharacterEncoding());				
 		PrintWriter out = response.getWriter();
 		
-		//リクエストパラメータを取得		
+		//リクエストパラメータを取得	
+		String action =request.getParameter("action");
+		
+		String id =request.getParameter("id");
 		String mail =request.getParameter("mail");
 		String pass =request.getParameter("password");
-		String action =request.getParameter("action");
-		String bookID =request.getParameter("bookID");
-		String userID =request.getParameter("userID");		
+		
+		String bookID =request.getParameter("bookID");		
 		String title =request.getParameter("title");
 		String author =request.getParameter("author");
 		String publisher =request.getParameter("publisher");
-		
+		String userID =request.getParameter("userID");
 		
 		//リクエストの種類分け
 		
@@ -127,15 +129,15 @@ public class LoginServlet extends HttpServlet {
 				response.sendRedirect("/bm/ForwardServlet");
 			} else {
 				
-				int id = bmlogin.getId();
+				int uId = bmlogin.getId();
 				
-				ArrayList<Book> myBooks2 = bo.getBookInfo(id);//正規出力
+				ArrayList<Book> myBooks2 = bo.getBookInfo(uId);//正規出力
 //				ArrayList<String> myBooks =  bo.getBookList(id);
 //				ArrayList<String> myBooks3 = bo.getBooks(id);
 								
 				//セッションにアカウント情報を保存
 				HttpSession session = request.getSession();
-				session.setAttribute("id", id);
+				session.setAttribute("id", uId);
 				session.setAttribute("mail", mail);
 				session.setAttribute("pass", pass);
 				
@@ -148,7 +150,59 @@ public class LoginServlet extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/mypage.jsp");
 				dispatcher.forward(request, response);
 				
-			}
+				}
+		}else if ("editUser".equals(action)){
+		//ユーザー情報編集画面へ
+			
+			//JSPから受け取ったIDをintに変換
+			int uID = Integer.parseInt(id);
+				
+			//ユーザー情報を取得
+			LoginLogic lo = new LoginLogic();
+			User user = lo.getUserInfo(uID);
+				
+			HttpSession session = request.getSession();
+			session.setAttribute("userInfo", user);
+				
+			//書籍情報編集画面へフォワード
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/EditUser.jsp");
+			dispatcher.forward(request, response);
+
+			
+		}else if ("updateUser".equals(action)){
+		//書籍情報を編集し、書籍情報画面へ
+					
+			//JSPから受け取ったIDをintに変換
+			int uID = Integer.parseInt(id);
+					
+			User user = new User(uID, mail, pass);
+			LoginLogic lo = new LoginLogic();
+			boolean rs = lo.updateUser(user);
+					
+			String mess = null;
+			if(!rs) {
+				mess ="エラーが発生しました";
+			} else {
+				mess ="ユーザー情報を保存しました";
+					
+			//マイページの情報を更新
+			ArrayList<Book> bookInfo = lo.getBookInfo(uID);
+				
+			//セッションにデータを保存
+			HttpSession session = request.getSession();
+			
+			session.setAttribute("id", uID);
+			session.setAttribute("mail", mail);
+			session.setAttribute("pass", pass);
+			
+			session.setAttribute("books2", bookInfo);
+			session.setAttribute("message", mess);
+				
+			//マイページへフォワード
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/mypage.jsp");
+			dispatcher.forward(request, response);
+					
+			}		
 			
 		} else if ("getBookInfo".equals(action)){
 			//書籍情報の詳細を取得
@@ -252,10 +306,58 @@ public class LoginServlet extends HttpServlet {
 			//書籍情報編集画面へフォワード
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookInfo.jsp");
 			dispatcher.forward(request, response);
+			}
 			
-	}
+		}else if ("AddBook".equals(action)){
+			//書籍追加画面へ
+			
+			//JSPから受け取ったIDを数字に変換
+			int uID = Integer.parseInt(userID);
+			
+			//書籍情報一覧を取得
+			User user = new User(uID);			
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("userID", user);
+			
+			//書籍情報編集画面へフォワード
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/AddBook.jsp");
+			dispatcher.forward(request, response);
 		
-	}
+		}else if ("addNewBook".equals(action)){
+			//書籍情報を編集し、書籍情報画面へ
+			
+			//JSPから受け取ったIDを数字に変換
+			int uID = Integer.parseInt(userID);
+			
+			Book nbook = new Book(title, author, publisher, uID);
+			BookLogic blo = new BookLogic();
+			boolean rs = blo.addBook(nbook);
+			
+			String mess = null;
+			if(!rs) {
+				mess ="エラーが発生しました";
+			} else {
+				mess ="書籍情報を保存しました";
+
+
+			//マイページの情報を更新
+			LoginLogic bo = new LoginLogic();
+			User userInfo = bo.getUserInfo(uID);				
+			ArrayList<Book> bookInfo = bo.getBookInfo(uID);
+			
+			//セッションにデータを保存
+			HttpSession session = request.getSession();
+			session.setAttribute("userInfo", userInfo);
+			session.setAttribute("books2", bookInfo);
+			session.setAttribute("message", mess);
+			
+			//マイページへフォワード
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/mypage.jsp");
+			dispatcher.forward(request, response);
+			
+			}
+		}	
 	}
 }
 		

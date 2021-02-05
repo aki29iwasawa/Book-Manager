@@ -13,7 +13,7 @@ public class LoginLogic {
 		return user;
 	}
 	
-	//ユーザー情報をIDから取得
+	//ユーザー情報をintIDから取得
 	public User getUserInfo(int uID){
 		BmDAO dao = new BmDAO();
 		User userData = dao.RefleshUserInfo(uID);
@@ -25,6 +25,13 @@ public class LoginLogic {
 		BookDAO dao = new BookDAO();
 		ArrayList<Book> bookDatas = dao.getAllDataBook(uID);		
 		return bookDatas;	
+	}
+	
+	//ユーザー情報の更新
+	public boolean updateUser(User user){
+		BmDAO dao = new BmDAO();
+		boolean rs = dao.updateUser(user);
+		return rs;		
 	}
 	
 	

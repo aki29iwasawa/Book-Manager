@@ -230,6 +230,54 @@ public class BookDAO {
 		return bookDatas;		
 	}
 
+	public boolean addBookData(Book nbook) {
+	
+		Connection conn = null;
+		
+		try {
+			
+			//JDBCドライバの読み込み
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			
+			//データベース接続
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bm?serverTimezone=JST", "root", "pass");
+			
+			//insert文　データの格納		
+			String sql = "insert into book (title, author, publisher, userID) values (?, ?, ?, ?)";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1, nbook.getTitle());
+			pstmt.setString(2, nbook.getAuthor());
+			pstmt.setString(1, nbook.getPublisher());
+			pstmt.setInt(1, nbook.getUserID());
+			
+			//SQL実行、結果取得
+			int result = pstmt.executeUpdate();
+			
+			if(result !=1) {
+				return false;
+			}
+		} catch(SQLException e) {
+			e.printStackTrace();
+			return false;
+		} catch(ClassNotFoundException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			//データベース切断
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch(SQLException e) {
+					e.printStackTrace();
+					return false;
+				}
+			}
+		}
+		return true;
+		}
+
+
 
 //	public ArrayList<String> getBooks(int userData) {
 //		Connection conn = null;

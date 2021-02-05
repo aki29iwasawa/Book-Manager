@@ -21,6 +21,13 @@ public class Book {
 		this.userID = userID;
 	}
 	
+	public Book(String title, String author, String publisher, int userID) {
+		this.title = title;
+		this.author = author;
+		this.publisher = publisher;
+		this.userID = userID;
+	}
+	
 	
 	public int getId() { return id; }
 	public String getTitle() { return title; }

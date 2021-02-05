@@ -167,6 +167,54 @@ public class BmDAO {
 		}
 		return true;
 		}
-	}
+
+	//ユーザー情報の更新
+	public boolean updateUser(User user) {
+		
+		Connection conn = null;
+		
+		try {
+			
+			//JDBCドライバの読み込み
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			
+			//データベース接続
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bm?serverTimezone=JST", "root", "pass");
+			
+			//insert文　データの格納		
+			String sql = "update user set mail=?, password=? where id=?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+	
+			pstmt.setString(1, user.getMail());
+			pstmt.setString(2, user.getPass());
+			pstmt.setInt(3, user.getId());
+			
+			//SQL実行、結果取得
+			int result = pstmt.executeUpdate();
+			
+			if(result !=1) {
+				return false;
+			}
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+			return false;
+		} catch(ClassNotFoundException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			//データベース切断
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch(SQLException e) {
+					e.printStackTrace();
+					return false;
+				}
+			}
+		}
+		return true;
+		}
+}
 	
 
