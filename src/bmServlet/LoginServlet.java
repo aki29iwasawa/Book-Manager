@@ -132,8 +132,7 @@ public class LoginServlet extends HttpServlet {
 				int uId = bmlogin.getId();
 				
 				ArrayList<Book> myBooks2 = bo.getBookInfo(uId);//正規出力
-//				ArrayList<String> myBooks =  bo.getBookList(id);
-//				ArrayList<String> myBooks3 = bo.getBooks(id);
+
 								
 				//セッションにアカウント情報を保存
 				HttpSession session = request.getSession();
@@ -142,10 +141,9 @@ public class LoginServlet extends HttpServlet {
 				session.setAttribute("pass", pass);
 				
 				//書籍情報
-//				session.setAttribute("books", myBooks);//EL式でゴリゴリ書き出し
+
 				session.setAttribute("books2", myBooks2);//正規の出力
-//				session.setAttribute("books3", myBooks3);//カンマ区切り
-							
+
 				//マイページ画面へフォワード
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/mypage.jsp");
 				dispatcher.forward(request, response);

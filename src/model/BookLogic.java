@@ -17,6 +17,7 @@ public class BookLogic {
 		return rs;
 	}
 	
+	
 	//書籍情報を更新
 	public boolean updateBook(Book book){
 		BookDAO dao = new BookDAO();

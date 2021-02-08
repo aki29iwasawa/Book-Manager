@@ -9,6 +9,7 @@
 </head>
 <body>
 	<article>
+	
 		<h1>書籍詳細情報</h1>
 		<p>${BookInfo.id}</p>
 		<p>${BookInfo.title}</p>

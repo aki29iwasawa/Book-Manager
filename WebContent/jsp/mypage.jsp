@@ -28,6 +28,7 @@
 		<p>メールアドレス</p>
 		<p>${mail}</p>
 		
+		
 		<h2 class="center">あなたの本棚</h2>
 		
 		<form action="/bm/BmServlet" method="post">

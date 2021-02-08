@@ -20,35 +20,20 @@ public class LoginLogic {
 		return userData;		
 	}
 
-	//書籍一覧を取得
+	//mypageの更新、書籍一覧を取得
 	public ArrayList<Book> getBookInfo(int uID){		
 		BookDAO dao = new BookDAO();
 		ArrayList<Book> bookDatas = dao.getAllDataBook(uID);		
 		return bookDatas;	
 	}
 	
-	//ユーザー情報の更新
+	//mypageの更新、ユーザー情報
 	public boolean updateUser(User user){
 		BmDAO dao = new BmDAO();
 		boolean rs = dao.updateUser(user);
 		return rs;		
 	}
 	
-	
-//	public ArrayList<String> getBookList(int userData){
-//		
-//		BookDAO dao = new BookDAO();
-//		ArrayList<String> bookData = dao.getAllData(userData);
-//		
-//		return bookData;	
-//	}
-//	
-//	public ArrayList<String> getBooks(int userData){
-//		
-//		BookDAO dao = new BookDAO();
-//		ArrayList<String> bookDatas = dao.getBooks(userData);
-//		
-//		return bookDatas;	
-//	}
+
 	
 }

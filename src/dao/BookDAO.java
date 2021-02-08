@@ -188,7 +188,8 @@ public class BookDAO {
 			String sql = "select id, title, author, publisher, userID"
 					+ " from book"
 					+ " where userID = ? ";
-//					+ " limit 3";
+
+			//					+ " limit 3";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 
 			pstmt.setInt(1, userData);
@@ -277,123 +278,4 @@ public class BookDAO {
 		return true;
 		}
 
-
-
-//	public ArrayList<String> getBooks(int userData) {
-//		Connection conn = null;
-//		ArrayList<String> bookDatas = new ArrayList<String>();
-//		
-//		try {
-//			
-//			//JDBCドライバの読み込み
-//			Class.forName("com.mysql.cj.jdbc.Driver");
-//			
-//			//データベース接続
-//			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bm?serverTimezone=JST", "root", "pass");
-//			
-//			//select文		
-//			String sql = "select id, title, author, publisher, userID"
-//					+ " from book"
-//					+ " where userID = ? "
-//					+ " limit 3";
-//			PreparedStatement pstmt = conn.prepareStatement(sql);
-//
-//			pstmt.setInt(1, userData);
-//						
-//			//SQL実行、結果取得
-//			ResultSet rs = pstmt.executeQuery();
-//			
-//			//データを取得
-//			while(rs.next()) {
-//			
-//			String title = rs.getString("title");
-//			String author = rs.getString("author");
-//			String publisher  = rs.getString("publisher");
-//			
-//			bookDatas.add(title + "," + author + "," + publisher);
-//			}
-//		} catch(SQLException e) {
-//			System.out.println("データベースへのアクセスでエラーが発生しました。");
-//			e.printStackTrace();
-//			return null;
-//		} catch(ClassNotFoundException e) {
-//			System.out.println("JDBCドライバのロードでエラーが発生しました");
-//			e.printStackTrace();
-//			return null;
-//		} finally {
-//			//データベース切断
-//			if(conn != null) {
-//				try {
-//					conn.close();
-//				} catch(SQLException e) {
-//					System.out.println("finallyデータベースへのアクセスでエラーが発生しました。");
-//					e.printStackTrace();
-//					return null;
-//				}
-//			}
-//		}
-//		return bookDatas;		
-//	}
-//
-//
-//
-//
-//	
-//	public ArrayList<String> getAllData(int userData) {
-//		ArrayList<String> bookData = new ArrayList<String>();
-//		
-//		Connection conn = null;
-//		
-//		try {
-//			
-//			//JDBCドライバの読み込み
-//			Class.forName("com.mysql.cj.jdbc.Driver");
-//			
-//			//データベース接続
-//			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bm?serverTimezone=JST", "root", "pass");
-//
-//			
-//			//select文		
-//			String sql = "select title, author, publisher"
-//					+ " from book"
-//					+ " where userID = ? "
-//					+ " limit 3";
-//			PreparedStatement pstmt = conn.prepareStatement(sql);
-//
-//			pstmt.setInt(1, userData);
-//						
-//			//SQL実行、結果取得
-//			ResultSet rs = pstmt.executeQuery();		
-//
-//			while (rs.next()) {
-//		        bookData.add(rs.getString("title"));
-//		        bookData.add(rs.getString("author"));
-//		        bookData.add(rs.getString("publisher"));
-//		      }
-//			
-//		} catch(SQLException e) {
-//			System.out.println("データベースへのアクセスでエラーが発生しました。");
-//			e.printStackTrace();
-//			return null;
-//		} catch(ClassNotFoundException e) {
-//			System.out.println("JDBCドライバのロードでエラーが発生しました");
-//			e.printStackTrace();
-//			return null;
-//		} finally {
-//			//データベース切断
-//			if(conn != null) {
-//				try {
-//					conn.close();
-//				} catch(SQLException e) {
-//					System.out.println("finallyデータベースへのアクセスでエラーが発生しました。");
-//					e.printStackTrace();
-//					return null;
-//				}
-//			}
-//		}
-//		
-//		return bookData;
-//		
-//		
-//	}
 }
