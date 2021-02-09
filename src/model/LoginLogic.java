@@ -7,10 +7,10 @@ import dao.BookDAO;
 
 public class LoginLogic {
 	//ログイン処理
-	public User execute(User BmLogin) {
+	public User execute(User user) {
 		BmDAO dao = new BmDAO();
-		User user = dao.findByLogin(BmLogin);
-		return user;
+		User userInfo = dao.findByLogin(user);
+		return userInfo;
 	}
 	
 	//ユーザー情報をintIDから取得

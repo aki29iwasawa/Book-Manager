@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import model.BmLogin;
+//import model.BmLogin;
 import model.User;
 
 //user tableの処理
@@ -123,7 +123,7 @@ public class BmDAO {
 	}
 	
 	//新規ユーザーを登録
-	public boolean create(BmLogin NewUser) {
+	public boolean create(User user) {
 		
 		Connection conn = null;
 		
@@ -139,8 +139,8 @@ public class BmDAO {
 			String sql = "insert into user (mail, password) values (?, ?)";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 
-			pstmt.setString(1, NewUser.getMail());
-			pstmt.setString(2, NewUser.getPass());
+			pstmt.setString(1, user.getMail());
+			pstmt.setString(2, user.getPass());
 			
 			//SQL実行、結果取得
 			int result = pstmt.executeUpdate();

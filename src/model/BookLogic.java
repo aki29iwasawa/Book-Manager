@@ -25,6 +25,7 @@ public class BookLogic {
 		return nBook;
 	}
 
+	//書籍追加
 	public boolean addBook(Book nbook) {
 		BookDAO dao = new BookDAO();
 		boolean rs = dao.addBookData(nbook);

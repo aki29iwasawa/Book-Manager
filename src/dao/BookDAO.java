@@ -171,7 +171,7 @@ public class BookDAO {
 		return true;
 	}
 	
-	
+	//書籍情報全件取得
 	public ArrayList<Book> getAllDataBook(int userData) {		
 		Connection conn = null;
 		ArrayList<Book> bookDatas = new ArrayList<Book>();
@@ -231,6 +231,7 @@ public class BookDAO {
 		return bookDatas;		
 	}
 
+	//書籍追加
 	public boolean addBookData(Book nbook) {
 	
 		Connection conn = null;

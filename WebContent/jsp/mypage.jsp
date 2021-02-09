@@ -19,21 +19,21 @@
 		<form action="/bm/BmServlet" method="post">
 		<button>アカウント情報の編集・削除</button>
 		<input type="hidden" name="action" value="editUser">
-		<input type="hidden" name="id" value="${id}">
+		<input type="hidden" name="id" value="${uInfo.id}">
 		</form>
 		
 		<p>${mess}</p>
 		<p>ユーザーID</p>
-		<p>${id}</p>
+		<p>${user.id}</p>
 		<p>メールアドレス</p>
-		<p>${mail}</p>
+		<p>${user.mail}</p>
 		
 		
 		<h2 class="center">あなたの本棚</h2>
 		
 		<form action="/bm/BmServlet" method="post">
 		<button>書籍を追加</button>
-		<input type="hidden" name="action" value="AddBook">
+		<input type="hidden" name="action" value="addBook">
 		<input type="hidden" name="id" value="${id}">
 		</form>
 		

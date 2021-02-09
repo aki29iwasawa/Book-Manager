@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.BmLogin;
+//import model.BmLogin;
 import model.Book;
 import model.BookLogic;
 import model.LoginLogic;
@@ -90,20 +90,37 @@ public class LoginServlet extends HttpServlet {
 				out.println("パスワードを入力してください");
 			}
 			
-			BmLogin bmLogin = new BmLogin(mail, pass);
+			User newUser = new User(mail, pass);
 			SignUpLogic sul = new SignUpLogic();
-			boolean result = sul.execute(bmLogin);
+			boolean result = sul.execute(newUser);
 			
 			if(result) {
-				//成功・セッションスコープに保存
-				HttpSession session = request.getSession();
-				session.setAttribute("mail", mail);
-				session.setAttribute("pass", pass);
-				session.setAttribute("mess", "下記内容でアカウントを登録しました");
 				
-				//マイページ画面へフォワード
+				//ログイン処理の実行
+				User user = new User(mail, pass);
+				LoginLogic bo = new LoginLogic();
+				user = bo.execute(user);
+				
+				int uID = user.getId();
+				
+//				User uInfo = bo.getUserInfo(uID);				
+				ArrayList<Book> bookInfo = bo.getBookInfo(uID);
+				
+//				int id1 = uInfo.getId();
+				
+				//セッションにデータを保存
+				HttpSession session = request.getSession();
+//				session.setAttribute("id", id1);
+//				session.setAttribute("id2", uID);
+				session.setAttribute("user", user);
+				session.setAttribute("books2", bookInfo);
+				session.setAttribute("message", "下記内容でアカウントを登録しました");
+				
+				//マイページへフォワード
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/mypage.jsp");
 				dispatcher.forward(request, response);
+				
+
 			}else {
 				//失敗・リダイレクト
 				response.sendRedirect("/bm/ForwardServlet");
@@ -121,34 +138,27 @@ public class LoginServlet extends HttpServlet {
 			}
 			
 			//ログイン処理の実行
-			User bmlogin = new User(mail, pass);
+			User user = new User(mail, pass);
 			LoginLogic bo = new LoginLogic();
-			bmlogin = bo.execute(bmlogin);
+			user = bo.execute(user);
 			
-			if(bmlogin == null) {
-				response.sendRedirect("/bm/ForwardServlet");
-			} else {
-				
-				int uId = bmlogin.getId();
-				
-				ArrayList<Book> myBooks2 = bo.getBookInfo(uId);//正規出力
+			int uID = user.getId();
+			
+			User uInfo = bo.getUserInfo(uID);				
+			ArrayList<Book> bookInfo = bo.getBookInfo(uID);
+			
+			//セッションにデータを保存
+			HttpSession session = request.getSession();
+			session.setAttribute("uInfo", uInfo);
+			session.setAttribute("books2", bookInfo);
+			session.setAttribute("message", "");
+			
+			//マイページへフォワード
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/mypage.jsp");
+			dispatcher.forward(request, response);
+			
 
-								
-				//セッションにアカウント情報を保存
-				HttpSession session = request.getSession();
-				session.setAttribute("id", uId);
-				session.setAttribute("mail", mail);
-				session.setAttribute("pass", pass);
-				
-				//書籍情報
-
-				session.setAttribute("books2", myBooks2);//正規の出力
-
-				//マイページ画面へフォワード
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/mypage.jsp");
-				dispatcher.forward(request, response);
-				
-				}
+//				}
 		}else if ("editUser".equals(action)){
 		//ユーザー情報編集画面へ
 			
@@ -306,11 +316,11 @@ public class LoginServlet extends HttpServlet {
 			dispatcher.forward(request, response);
 			}
 			
-		}else if ("AddBook".equals(action)){
+		}else if ("addBook".equals(action)){
 			//書籍追加画面へ
 			
 			//JSPから受け取ったIDを数字に変換
-			int uID = Integer.parseInt(userID);
+			int uID = Integer.parseInt(id);
 			
 			//書籍情報一覧を取得
 			User user = new User(uID);			
