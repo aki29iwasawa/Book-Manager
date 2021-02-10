@@ -8,9 +8,15 @@
 <title>書籍詳細情報</title>
 </head>
 <body>
-	<article>
-	
+	<article>	
 		<h1>書籍詳細情報</h1>
+		
+		<form action="/bm/BmServlet" method="post">
+		<button>マイページへ</button>
+		<input type="hidden" name="action" value="toMypage">
+		<input type="hidden" name="id" value="${BookInfo.userID}">
+		</form>
+		
 		<p>${BookInfo.id}</p>
 		<p>${BookInfo.title}</p>
 		<p>${BookInfo.author}</p>

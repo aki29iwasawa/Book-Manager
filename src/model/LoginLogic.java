@@ -34,6 +34,13 @@ public class LoginLogic {
 		return rs;		
 	}
 	
+	//アカウントを削除する
+	public boolean deleteUser(User user){
+		BmDAO dao = new BmDAO();
+		boolean rs = dao.deleteUser(user);
+		return rs;
+	}
+	
 
 	
 }

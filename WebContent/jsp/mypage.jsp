@@ -15,26 +15,25 @@
 		<h1>マイページ</h1>
 		
 		<h2 class="center">アカウント情報</h2>
+		<p>${mess}</p>
 		
 		<form action="/bm/BmServlet" method="post">
 		<button>アカウント情報の編集・削除</button>
-		<input type="hidden" name="action" value="editUser">
+		<input type="hidden" name="action" value="toEditUserPage">
 		<input type="hidden" name="id" value="${uInfo.id}">
 		</form>
 		
-		<p>${mess}</p>
 		<p>ユーザーID</p>
-		<p>${user.id}</p>
+		<p>${uInfo.id}</p>
 		<p>メールアドレス</p>
-		<p>${user.mail}</p>
-		
+		<p>${uInfo.mail}</p>
 		
 		<h2 class="center">あなたの本棚</h2>
 		
 		<form action="/bm/BmServlet" method="post">
 		<button>書籍を追加</button>
 		<input type="hidden" name="action" value="addBook">
-		<input type="hidden" name="id" value="${id}">
+		<input type="hidden" name="id" value="${uInfo.id}">
 		</form>
 		
 		<table>
@@ -70,7 +69,7 @@
 		
 	
 	</article>
-	<div id="msg" data-message="${message}">	
+	<div id="msg" data-message="${aMess}">	
 	</div>
 	<script>
 		window.onload = function() {

@@ -11,6 +11,13 @@
 	<article>
 		<h1>書籍情報を編集</h1>
 		
+		<form action="/bm/BmServlet" method="post">
+		<button>戻る</button>
+		<input type="hidden" name="action" value="getBookInfo">
+		<input type="hidden" name="bookID" value="${BookInfo.id}">
+		<input type="hidden" name="userID" value="${BookInfo.userID}">
+		</form>
+		
 		<form action="/bm/BmServlet" method="post" name="form">
 		<p>タイトル</p>
 		<input type="text" name="title" id="title" value="${BookInfo.title}">

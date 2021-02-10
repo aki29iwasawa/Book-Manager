@@ -5,8 +5,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-//import model.BmLogin;
 import model.User;
 
 //user tableの処理
@@ -14,7 +12,7 @@ import model.User;
 public class BmDAO {
 	
 	//ユーザー情報を取得
-	public User RefleshUserInfo(int userID) {	
+	public User RefleshUserInfo(int uID) {	
 		Connection conn = null;
 		User user = null;
 		
@@ -27,10 +25,10 @@ public class BmDAO {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bm?serverTimezone=JST", "root", "pass");
 			
 			//select文		
-			String sql = "SELECT * FROM user WHERE mail = ? and password = ?";
+			String sql = "SELECT * FROM user WHERE id = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 
-			pstmt.setInt(1, userID);
+			pstmt.setInt(1, uID);
 						
 			//SQL実行、結果取得
 			ResultSet rs = pstmt.executeQuery();
@@ -214,7 +212,54 @@ public class BmDAO {
 			}
 		}
 		return true;
+	}
+	
+	//アカウント情報の削除
+	public boolean deleteUser(User user) {
+		Connection conn = null;
+		
+		try {			
+			//JDBCドライバの読み込み
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			
+			//データベース接続
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bm?serverTimezone=JST", "root", "pass");
+			
+			//select文		
+			String sql = "delete from user"
+					+ " where id = ? ";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+
+			pstmt.setInt(1, user.getId());
+						
+			//SQL実行、結果取得
+			
+			int result = pstmt.executeUpdate();
+			
+			if(result !=1) {
+				return false;
+			}
+		} catch(SQLException e) {
+			e.printStackTrace();
+			return false;
+		} catch(ClassNotFoundException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			//データベース切断
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch(SQLException e) {
+					e.printStackTrace();
+					return false;
+				}
+			}
 		}
+		return true;
+	}
+	
+	
 }
 	
 

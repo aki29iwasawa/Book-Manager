@@ -250,8 +250,8 @@ public class BookDAO {
 
 			pstmt.setString(1, nbook.getTitle());
 			pstmt.setString(2, nbook.getAuthor());
-			pstmt.setString(1, nbook.getPublisher());
-			pstmt.setInt(1, nbook.getUserID());
+			pstmt.setString(3, nbook.getPublisher());
+			pstmt.setInt(4, nbook.getUserID());
 			
 			//SQL実行、結果取得
 			int result = pstmt.executeUpdate();
@@ -259,6 +259,7 @@ public class BookDAO {
 			if(result !=1) {
 				return false;
 			}
+			
 		} catch(SQLException e) {
 			e.printStackTrace();
 			return false;
