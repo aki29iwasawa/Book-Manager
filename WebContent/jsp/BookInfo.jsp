@@ -22,7 +22,7 @@
 		<p>${BookInfo.author}</p>
 		<p>${BookInfo.publisher}</p>
 		
-		<form action="/bm/BmServlet" method="post" name="form" onsubmit="return deleteCheck();">
+		<form action="/bm/BmServlet" method="post" name="form" onsubmit="return deleteCheck()">
 		<button type="submit">削除</button>		
 		<input type="hidden" name="action" value="deleteBook">
 		<input type="hidden" name="bookID" value="${BookInfo.id}">

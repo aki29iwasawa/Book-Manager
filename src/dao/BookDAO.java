@@ -172,7 +172,8 @@ public class BookDAO {
 	}
 	
 	//書籍情報全件取得
-	public ArrayList<Book> getAllDataBook(int userData) {		
+	public ArrayList<Book> getAllDataBook(int userData) {	
+		//パラメーターlimitを増やす
 		Connection conn = null;
 		ArrayList<Book> bookDatas = new ArrayList<Book>();
 		
@@ -184,15 +185,20 @@ public class BookDAO {
 			//データベース接続
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bm?serverTimezone=JST", "root", "pass");
 
-			//select文		
+			//select文	
+			//件数取得SQL
+			
+			
 			String sql = "select id, title, author, publisher, userID"
 					+ " from book"
-					+ " where userID = ? ";
-
-			//					+ " limit 3";
+					+ " where userID = ? "
+					+ " limit ?,?";
+			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 
 			pstmt.setInt(1, userData);
+//limit用			pstmt.setInt(2, userData);
+//limit用			pstmt.setInt(3, userData);
 						
 			//SQL実行、結果取得
 			ResultSet rs = pstmt.executeQuery();

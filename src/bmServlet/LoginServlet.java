@@ -17,6 +17,8 @@ import javax.servlet.http.HttpSession;
 import model.Book;
 import model.BookLogic;
 import model.LoginLogic;
+import model.Memo;
+import model.MemoLogic;
 import model.SignUpLogic;
 import model.User;
 
@@ -40,10 +42,15 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		//ログイン画面へフォワード
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/SignIn.jsp");
+
+		//フォワード
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/ForwardBm.jsp");
 		dispatcher.forward(request, response);
+		
+		
+//		//ログイン画面へフォワード
+//		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/SignIn.jsp");
+//		dispatcher.forward(request, response);
 		
 		
 	}
@@ -81,7 +88,7 @@ public class LoginServlet extends HttpServlet {
 		//リクエストの種類分け
 
 		if("SignUp".equals(action)) {
-			//アカウント登録
+		//アカウント登録
 			
 			//パラメータチェック あとで（ログイン画面に戻る処理）
 			if(mail == null || mail.length() == 0) {
@@ -110,7 +117,7 @@ public class LoginServlet extends HttpServlet {
 				//セッションにデータを保存
 				HttpSession session = request.getSession();
 				session.setAttribute("uInfo", uInfo);
-				session.setAttribute("books2", bookInfo);
+				session.setAttribute("books", bookInfo);
 				session.setAttribute("mess", "下記内容でアカウントを登録しました");
 				
 				//マイページへフォワード
@@ -122,7 +129,7 @@ public class LoginServlet extends HttpServlet {
 			}			
 			
 		} else if("SignIn".equals(action))  {
-			//ログイン処理
+		//ログイン処理
 			
 			//パラメータチェック あとでやる（ログイン画面に戻る処理）
 			if(mail == null || mail.length() == 0) {
@@ -134,39 +141,53 @@ public class LoginServlet extends HttpServlet {
 			
 			//ログイン処理の実行
 			User user = new User(mail, pass);
-			LoginLogic bo = new LoginLogic();
-			user = bo.execute(user);
+			LoginLogic lo = new LoginLogic();
+			user = lo.execute(user);
 			
 			int uID = user.getId();
 			
-			User uInfo = bo.getUserInfo(uID);				
-			ArrayList<Book> bookInfo = bo.getBookInfo(uID);
+			User uInfo = lo.getUserInfo(uID);
+			Memo aMemo = lo.getAccountMemo(uID);
+			ArrayList<Book> bookInfo = lo.getBookInfo(uID);
 			
 			//セッションにデータを保存
 			HttpSession session = request.getSession();
 			session.setAttribute("uInfo", uInfo);
-			session.setAttribute("books2", bookInfo);
-//			session.setAttribute("mess", "おかえりなさい");
+			session.setAttribute("aMemo", aMemo);
+			session.setAttribute("books", bookInfo);
 			
 			//マイページへフォワード
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/mypage.jsp");
 			dispatcher.forward(request, response);
+			
+		} else if("logOut".equals(action))  {
+		//ログアウト処理
+			
+			HttpSession session = request.getSession();
+			session.invalidate();
+			
+			//トップページへ遷移
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/ForwardBm.jsp");
+			dispatcher.forward(request, response);
 		
 		}else if("toMypage".equals(action))  {
-			//マイページへ画面遷移
+		//マイページへ画面遷移
 						
 			//JSPから受け取ったIDをintに変換
 			int uID = Integer.parseInt(id);
 				
 			//ユーザー情報、書籍情報を取得
 			LoginLogic lo = new LoginLogic();
-			User uInfo = lo.getUserInfo(uID);				
+			
+			User uInfo = lo.getUserInfo(uID);
+			Memo aMemo = lo.getAccountMemo(uID);
 			ArrayList<Book> bookInfo = lo.getBookInfo(uID);
 			
 			//セッションにデータを保存
 			HttpSession session = request.getSession();
 			session.setAttribute("uInfo", uInfo);
-			session.setAttribute("books2", bookInfo);
+			session.setAttribute("aMemo", aMemo);
+			session.setAttribute("books", bookInfo);
 			
 			//マイページへフォワード
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/mypage.jsp");
@@ -207,13 +228,15 @@ public class LoginServlet extends HttpServlet {
 				aMess ="ユーザー情報を保存しました";
 				
 			//マイページの情報を更新				
-			User uInfo = lo.getUserInfo(uID);				
+			User uInfo = lo.getUserInfo(uID);
+			Memo aMemo = lo.getAccountMemo(uID);
 			ArrayList<Book> bookInfo = lo.getBookInfo(uID);
 			
 			//セッションにデータを保存
 			HttpSession session = request.getSession();
 			session.setAttribute("uInfo", uInfo);
-			session.setAttribute("books2", bookInfo);
+			session.setAttribute("aMemo", aMemo);
+			session.setAttribute("books", bookInfo);
 			session.setAttribute("aMess", aMess);
 			
 			//マイページへフォワード
@@ -221,7 +244,7 @@ public class LoginServlet extends HttpServlet {
 			dispatcher.forward(request, response);
 			}
 		} else if("deleteUser".equals(action)) {
-			//アカウント情報を削除
+		//アカウント情報を削除
 			
 			//JSPから受け取ったIDを数字に変換
 			int uID = Integer.parseInt(id);
@@ -233,20 +256,22 @@ public class LoginServlet extends HttpServlet {
 			
 			String aMess = null;
 			if(rs) {
-				aMess = "アカウントの削除が完了しました";
+				aMess = "アカウントの削除が完了しました/nご利用ありがとうございました。";
 			}else if(!rs) {
 				aMess = "エラーが発生しました";
 			}			
 				//セッションにデータを保存
 			HttpSession session = request.getSession();
-			session.setAttribute("aMess", aMess);
+			session.invalidate();
+			session.setAttribute("deleteMess", aMess);
 			
-			//マイページへフォワード
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/bm/ForwardServlet");
-			dispatcher.forward(request, response);				
+			//トップページへ遷移
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/ForwardBm.jsp");
+			dispatcher.forward(request, response);
+
 			
 		} else if ("getBookInfo".equals(action)){
-			//書籍情報の詳細を取得
+		//書籍情報の詳細を取得
 			
 			//JSPから受け取ったIDを数字に変換
 			int bID = Integer.parseInt(bookID);
@@ -266,7 +291,7 @@ public class LoginServlet extends HttpServlet {
 			
 			
 		} else if("deleteBook".equals(action)) {
-			//書籍情報を削除
+		//書籍情報を削除
 			
 			//JSPから受け取ったIDを数字に変換
 			int bID = Integer.parseInt(bookID);
@@ -284,14 +309,16 @@ public class LoginServlet extends HttpServlet {
 				aMess = "エラーが発生しました";
 			}			
 			//マイページの情報を更新
-			LoginLogic bo = new LoginLogic();
-			User uInfo = bo.getUserInfo(uID);				
-			ArrayList<Book> bookInfo = bo.getBookInfo(uID);
+			LoginLogic lo = new LoginLogic();
+			User uInfo = lo.getUserInfo(uID);
+			Memo aMemo = lo.getAccountMemo(uID);
+			ArrayList<Book> bookInfo = lo.getBookInfo(uID);
 			
 			//セッションにデータを保存
 			HttpSession session = request.getSession();
 			session.setAttribute("uInfo", uInfo);
-			session.setAttribute("books2", bookInfo);
+			session.setAttribute("aMemo", aMemo);
+			session.setAttribute("books", bookInfo);
 			session.setAttribute("aMess", aMess);
 			
 			//マイページへフォワード
@@ -300,7 +327,7 @@ public class LoginServlet extends HttpServlet {
 			
 			
 		}else if ("editBookInfo".equals(action)){
-			//書籍情報を取得し、編集画面へ
+		//書籍情報を取得し、編集画面へ
 			
 			//JSPから受け取ったIDを数字に変換
 			int bID = Integer.parseInt(bookID);
@@ -319,7 +346,7 @@ public class LoginServlet extends HttpServlet {
 			dispatcher.forward(request, response);
 			
 		}else if ("updateBook".equals(action)){
-			//書籍情報を編集し、書籍情報画面へ
+		//書籍情報を編集し、書籍情報画面へ
 			
 			//JSPから受け取ったIDを数字に変換
 			int bID = Integer.parseInt(bookID);
@@ -350,13 +377,7 @@ public class LoginServlet extends HttpServlet {
 			}
 			
 		}else if ("addBook".equals(action)){
-			//書籍追加画面へ
-			
-//			//JSPから受け取ったIDを数字に変換
-//			int uID = Integer.parseInt(id);
-//			
-//			
-//			User user = new User(uID);			
+		//書籍追加画面へ
 			
 			HttpSession session = request.getSession();
 			session.setAttribute("uID", id);
@@ -390,7 +411,7 @@ public class LoginServlet extends HttpServlet {
 			//セッションにデータを保存
 			HttpSession session = request.getSession();
 			session.setAttribute("uInfo", uInfo);
-			session.setAttribute("books2", bookInfo);
+			session.setAttribute("books", bookInfo);
 			session.setAttribute("aMess", aMess);
 			
 			//マイページへフォワード
@@ -398,6 +419,25 @@ public class LoginServlet extends HttpServlet {
 			dispatcher.forward(request, response);
 			
 			}
+			
+		}else if ("editBookInfo".equals(action)){
+		//アカウントメモを取得し、メモ編集画面へ
+			
+			//JSPから受け取ったIDを数字に変換
+			int uID = Integer.parseInt(id);
+			
+			//書籍情報一覧を取得
+			Memo memo = new Memo(uID);			
+			MemoLogic ml = new MemoLogic();
+			memo = ml.getMemoData(memo);
+		
+			HttpSession session = request.getSession();
+			session.setAttribute("aMemo", memo);
+			
+			//書籍情報編集画面へフォワード
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/EditMemo.jsp");
+			dispatcher.forward(request, response);
+			
 		}	
 	}
 }

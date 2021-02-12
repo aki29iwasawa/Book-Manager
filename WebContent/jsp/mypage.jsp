@@ -18,8 +18,14 @@
 		<p>${mess}</p>
 		
 		<form action="/bm/BmServlet" method="post">
-		<button>アカウント情報の編集・削除</button>
+		<button type="submit">アカウント情報の編集・削除</button>
 		<input type="hidden" name="action" value="toEditUserPage">
+		<input type="hidden" name="id" value="${uInfo.id}">
+		</form>
+		
+		<form action="/bm/BmServlet" method="post" onsubmit="return logOut()">
+		<button type="submit">ログアウト</button>
+		<input type="hidden" name="action" value="logOut">
 		<input type="hidden" name="id" value="${uInfo.id}">
 		</form>
 		
@@ -28,10 +34,18 @@
 		<p>メールアドレス</p>
 		<p>${uInfo.mail}</p>
 		
+		<h2 class="center">新規メモ</h2>
+		<form action="/bm/BmServlet" method="post">
+		<button type="submit">メモの編集</button>
+		<input type="hidden" name="action" value="EditMemo">
+		<input type="hidden" name="id" value="${uInfo.id}">
+		</form>
+		<p>${aMemo.accountMemo}</p>
+		
 		<h2 class="center">あなたの本棚</h2>
 		
 		<form action="/bm/BmServlet" method="post">
-		<button>書籍を追加</button>
+		<button type="submit">書籍を追加</button>
 		<input type="hidden" name="action" value="addBook">
 		<input type="hidden" name="id" value="${uInfo.id}">
 		</form>
@@ -48,7 +62,7 @@
 			</thead>
             <tbody>
             	
-            		<c:forEach var="bk" items="${books2}">
+            		<c:forEach var="bk" items="${books}">
 						<form action="/bm/BmServlet" method="post">
             				<tr>
 		                    <td>${bk.title}</td>
@@ -67,6 +81,23 @@
 			</tbody>
 		</table>
 		
+		<form>
+			<button type="submit">前へ</button>
+			<input type="hidden" name="action" value="getPaged">
+			<input type="hidden" name="id" value="${uInfo.id}">
+			<input type="hidden" name="pageNum" value="${pageNum}">
+			<input type="hidden" name="direction" value="0">
+		</form>
+		
+		<form>
+			<button type="submit">次へ</button>
+			<input type="hidden" name="action" value="getPaged">
+			<input type="hidden" name="id" value="${uInfo.id}">
+			<input type="hidden" name="pageNum" value="${pageNum}">
+			<input type="hidden" name="direction" value="1">
+		</form>
+		
+		
 	
 	</article>
 	<div id="msg" data-message="${aMess}">	
@@ -79,6 +110,16 @@
 				alert(mess);
 			}		
 		};
+		
+		function logOut(){
+			var result = window.confirm("ログアウトしてトップページに戻ります");
+	    	
+	    	if(result){
+	    		document.form.submit();
+	    	}else{
+	    		return false;
+	    	}
+		}
 	</script>
 </body>
 </html>

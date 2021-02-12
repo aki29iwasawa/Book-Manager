@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import dao.BmDAO;
 import dao.BookDAO;
+import dao.MemoDAO;
 
 public class LoginLogic {
 	//ログイン処理
@@ -11,6 +12,13 @@ public class LoginLogic {
 		BmDAO dao = new BmDAO();
 		User userInfo = dao.findByLogin(user);
 		return userInfo;
+	}
+	
+	//アカウントを削除する
+	public boolean deleteUser(User user){
+		BmDAO dao = new BmDAO();
+		boolean rs = dao.deleteUser(user);
+		return rs;
 	}
 	
 	//ユーザー情報をintIDから取得
@@ -27,18 +35,18 @@ public class LoginLogic {
 		return bookDatas;	
 	}
 	
-	//mypageの更新、ユーザー情報
+	//mypageの更新、ユーザー情報取得
 	public boolean updateUser(User user){
 		BmDAO dao = new BmDAO();
 		boolean rs = dao.updateUser(user);
 		return rs;		
 	}
 	
-	//アカウントを削除する
-	public boolean deleteUser(User user){
-		BmDAO dao = new BmDAO();
-		boolean rs = dao.deleteUser(user);
-		return rs;
+	//mypageの更新、メモ情報取得
+	public Memo getAccountMemo(int uID) {
+		MemoDAO dao = new MemoDAO();
+		Memo aMemo = dao.getAccountMemo(uID);
+		return aMemo;
 	}
 	
 
