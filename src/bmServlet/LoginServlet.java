@@ -349,7 +349,7 @@ public class LoginServlet extends HttpServlet {
 			ArrayList<Book> books = bl.BookList(id, page, direction);
 			
 			request.setAttribute("books", books);
-			request.setAttribute("pageNum", 0);//ページは初期値0
+			request.setAttribute("pageNum", "");//ページは初期値0
 			request.setAttribute("uID", id); //IDはStringのまま渡す
 			
 			//マイページへフォワード
