@@ -171,8 +171,9 @@ public class BookDAO {
 		return true;
 	}
 	
-	//書籍情報全件取得
-	public ArrayList<Book> getAllDataBook(int userData) {	
+	
+	//mypage用BookData取得。全5件。
+	public ArrayList<Book> getBookMypage(int userData) {	
 		//パラメーターlimitを増やす
 		Connection conn = null;
 		ArrayList<Book> bookDatas = new ArrayList<Book>();
@@ -185,10 +186,68 @@ public class BookDAO {
 			//データベース接続
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bm?serverTimezone=JST", "root", "pass");
 
+			//select文		
+			String sql = "select id, title, author, publisher, userID"
+					+ " from book"
+					+ " where userID = ? "
+					+ " order by id desc"
+					+ " limit 5";			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userData);
+						
+			//SQL実行、結果取得
+			ResultSet rs = pstmt.executeQuery();
+			
+			//データを取得
+			while(rs.next()) {
+			
+			int id = rs.getInt("id");
+			String title = rs.getString("title");
+			String author = rs.getString("author");
+			String publisher  = rs.getString("publisher");
+			int userID = rs.getInt("userID");
+			
+			bookDatas.add(new Book(id, title, author, publisher, userID));			
+			}			
+		} catch(SQLException e) {
+			System.out.println("データベースへのアクセスでエラーが発生しました。");
+			e.printStackTrace();
+			return null;
+		} catch(ClassNotFoundException e) {
+			System.out.println("JDBCドライバのロードでエラーが発生しました");
+			e.printStackTrace();
+			return null;
+		} finally {
+			//データベース切断
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch(SQLException e) {
+					System.out.println("finallyデータベースへのアクセスでエラーが発生しました。");
+					e.printStackTrace();
+					return null;
+				}
+			}
+		}
+		return bookDatas;		
+	}
+	
+	
+	//書籍情報全件取得。10件ずつ。
+	public ArrayList<Book> getBook(int uID, int min, int max) {	
+		//パラメーターlimitを増やす〇
+		Connection conn = null;
+		ArrayList<Book> bookDatas = new ArrayList<Book>();
+		
+		try {		
+			//JDBCドライバの読み込み
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			
+			//データベース接続
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bm?serverTimezone=JST", "root", "pass");
+
 			//select文	
-			//件数取得SQL
-			
-			
+			//件数取得SQL			
 			String sql = "select id, title, author, publisher, userID"
 					+ " from book"
 					+ " where userID = ? "
@@ -196,9 +255,9 @@ public class BookDAO {
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 
-			pstmt.setInt(1, userData);
-//limit用			pstmt.setInt(2, userData);
-//limit用			pstmt.setInt(3, userData);
+			pstmt.setInt(1, uID);
+			pstmt.setInt(2, min);
+			pstmt.setInt(3, max);
 						
 			//SQL実行、結果取得
 			ResultSet rs = pstmt.executeQuery();

@@ -31,7 +31,7 @@ public class LoginLogic {
 	//mypageの更新、書籍一覧を取得
 	public ArrayList<Book> getBookInfo(int uID){		
 		BookDAO dao = new BookDAO();
-		ArrayList<Book> bookDatas = dao.getAllDataBook(uID);		
+		ArrayList<Book> bookDatas = dao.getBookMypage(uID);		
 		return bookDatas;	
 	}
 	

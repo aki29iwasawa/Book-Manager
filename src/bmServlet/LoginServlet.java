@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-//import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-//import model.BmLogin;
 import model.Book;
 import model.BookLogic;
 import model.LoginLogic;
@@ -83,6 +81,9 @@ public class LoginServlet extends HttpServlet {
 		String author =request.getParameter("author");
 		String publisher =request.getParameter("publisher");
 		String userID =request.getParameter("userID");
+		
+		String pageNum =request.getParameter("pageNum");
+		String direction =request.getParameter("direction");
 		
 		
 		//リクエストの種類分け
@@ -268,7 +269,7 @@ public class LoginServlet extends HttpServlet {
 			//トップページへ遷移
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/ForwardBm.jsp");
 			dispatcher.forward(request, response);
-
+		
 			
 		} else if ("getBookInfo".equals(action)){
 		//書籍情報の詳細を取得
@@ -325,9 +326,39 @@ public class LoginServlet extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/mypage.jsp");
 			dispatcher.forward(request, response);
 			
+		} else if("bookList".equals(action)) {
+		//書籍リストと検索の画面へ
+			int page = Integer.parseInt(pageNum);
+			
+			BookLogic bl = new BookLogic();
+			ArrayList<Book> books = bl.BookList(id, page, direction);
+			
+			request.setAttribute("books", books);
+			request.setAttribute("pageNum", 0);//ページは初期値0
+			request.setAttribute("uID", id); //IDはStringのまま渡す
+			
+			//マイページへフォワード
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookList.jsp");
+			dispatcher.forward(request, response);	
+
+		} else if("getPaged".equals(action)) {
+		//書籍表示のページング
+			int page = Integer.parseInt(pageNum);
+						
+			BookLogic bl = new BookLogic();
+			ArrayList<Book> books = bl.BookList(id, page, direction);
+			
+			request.setAttribute("books", books);
+			request.setAttribute("pageNum", 0);//ページは初期値0
+			request.setAttribute("uID", id); //IDはStringのまま渡す
+			
+			//マイページへフォワード
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookList.jsp");
+			dispatcher.forward(request, response);	
+			
 			
 		}else if ("editBookInfo".equals(action)){
-		//書籍情報を取得し、編集画面へ
+		//書籍情報編集画面へ
 			
 			//JSPから受け取ったIDを数字に変換
 			int bID = Integer.parseInt(bookID);

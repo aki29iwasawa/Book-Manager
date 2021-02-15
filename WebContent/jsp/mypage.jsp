@@ -36,13 +36,13 @@
 		
 		<h2 class="center">新規メモ</h2>
 		<form action="/bm/BmServlet" method="post">
-		<button type="submit">メモの編集</button>
+		<button type="submit">全てのメモを見る</button>
 		<input type="hidden" name="action" value="EditMemo">
 		<input type="hidden" name="id" value="${uInfo.id}">
 		</form>
 		<p>${aMemo.accountMemo}</p>
 		
-		<h2 class="center">あなたの本棚</h2>
+		<h2 class="center">最近追加した本</h2>
 		
 		<form action="/bm/BmServlet" method="post">
 		<button type="submit">書籍を追加</button>
@@ -81,23 +81,12 @@
 			</tbody>
 		</table>
 		
-		<form>
-			<button type="submit">前へ</button>
-			<input type="hidden" name="action" value="getPaged">
-			<input type="hidden" name="id" value="${uInfo.id}">
-			<input type="hidden" name="pageNum" value="${pageNum}">
-			<input type="hidden" name="direction" value="0">
-		</form>
-		
-		<form>
-			<button type="submit">次へ</button>
-			<input type="hidden" name="action" value="getPaged">
-			<input type="hidden" name="id" value="${uInfo.id}">
-			<input type="hidden" name="pageNum" value="${pageNum}">
-			<input type="hidden" name="direction" value="1">
-		</form>
-		
-		
+				
+		<form action="/bm/BmServlet" method="post">
+		<button type="submit">もっと見る<br>書籍一覧・検索画面へ</button>
+		<input type="hidden" name="action" value="bookList">
+		<input type="hidden" name="id" value="${uInfo.id}">
+		</form>		
 	
 	</article>
 	<div id="msg" data-message="${aMess}">	
