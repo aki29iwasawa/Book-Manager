@@ -11,6 +11,12 @@
 </head>
 <body>
 	<article>
+				
+		<form action="/bm/BmServlet" method="post">
+		<button>マイページへ</button>
+		<input type="hidden" name="action" value="toMypage">
+		<input type="hidden" name="id" value="${BookInfo.userID}">
+		</form>
 	
 		<p>aaaa ${uID}</p>
 	
@@ -23,7 +29,7 @@
 		</form>
 		
 				
-		<form>
+		<form id="prev" action="/bm/BmServlet" method="post">
 			<button type="submit">前へ</button>
 			<input type="hidden" name="action" value="getPaged">
 			<input type="hidden" name="id" value="${uInfo.id}">
@@ -31,7 +37,7 @@
 			<input type="hidden" name="direction" value="0">
 		</form>
 		
-		<form>
+		<form action="/bm/BmServlet" method="post">
 			<button type="submit">次へ</button>
 			<input type="hidden" name="action" value="getPaged">
 			<input type="hidden" name="id" value="${uInfo.id}">
@@ -70,6 +76,20 @@
 	
 	
 	</article>
+	<div id="msg" data-message="${info}">	
+	</div>
+	<script>
+		
+		window.onload = function() {
+			var element = document.getElementById("msg");
+			var mess = element.dataset.message||"";
+			if(mess == "first"){
+				const element = document.querySelector('prev')
+				element.remove()
+			}		
+		};
+
+	</script>
 
 </body>
 </html>

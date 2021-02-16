@@ -16,7 +16,7 @@ import model.Book;
 import model.BookLogic;
 import model.LoginLogic;
 import model.Memo;
-import model.MemoLogic;
+//import model.MemoLogic;
 import model.SignUpLogic;
 import model.User;
 
@@ -148,7 +148,7 @@ public class LoginServlet extends HttpServlet {
 			int uID = user.getId();
 			
 			User uInfo = lo.getUserInfo(uID);
-			Memo aMemo = lo.getAccountMemo(uID);
+			ArrayList<Memo> aMemo = lo.getAccountMemo(uID);
 			ArrayList<Book> bookInfo = lo.getBookInfo(uID);
 			
 			//セッションにデータを保存
@@ -181,7 +181,7 @@ public class LoginServlet extends HttpServlet {
 			LoginLogic lo = new LoginLogic();
 			
 			User uInfo = lo.getUserInfo(uID);
-			Memo aMemo = lo.getAccountMemo(uID);
+			ArrayList<Memo> aMemo = lo.getAccountMemo(uID);
 			ArrayList<Book> bookInfo = lo.getBookInfo(uID);
 			
 			//セッションにデータを保存
@@ -230,7 +230,7 @@ public class LoginServlet extends HttpServlet {
 				
 			//マイページの情報を更新				
 			User uInfo = lo.getUserInfo(uID);
-			Memo aMemo = lo.getAccountMemo(uID);
+			ArrayList<Memo> aMemo = lo.getAccountMemo(uID);
 			ArrayList<Book> bookInfo = lo.getBookInfo(uID);
 			
 			//セッションにデータを保存
@@ -312,7 +312,7 @@ public class LoginServlet extends HttpServlet {
 			//マイページの情報を更新
 			LoginLogic lo = new LoginLogic();
 			User uInfo = lo.getUserInfo(uID);
-			Memo aMemo = lo.getAccountMemo(uID);
+			ArrayList<Memo> aMemo = lo.getAccountMemo(uID);
 			ArrayList<Book> bookInfo = lo.getBookInfo(uID);
 			
 			//セッションにデータを保存
@@ -324,39 +324,104 @@ public class LoginServlet extends HttpServlet {
 			
 			//マイページへフォワード
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/mypage.jsp");
-			dispatcher.forward(request, response);
+			dispatcher.forward(request, response);		
 			
+//			
+//		//BookListを使う処理。	
+//		//これだとページの増やし方で問題が起きるので一旦別の方法で。
+//		} else if("bookList".equals(action)) {
+//		//書籍リストと検索の画面へ
+//			
+//			BookLogic bl = new BookLogic();
+//			ArrayList<Book> books = bl.BookList(id, pageNum, direction);
+//			
+//			request.setAttribute("books", books);
+//			request.setAttribute("pageNum", 0);//ページは初期値0
+//			request.setAttribute("uID", id); //IDはStringのまま渡す
+//			
+//			//マイページへフォワード
+//			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookList.jsp");
+//			dispatcher.forward(request, response);	
+//
+//		} else if("getPaged".equals(action)) {
+//		//書籍表示のページング
+//
+//			
+//			BookLogic bl = new BookLogic();
+//			ArrayList<Book> books = bl.BookList(id, pageNum, direction);
+//			
+//			request.setAttribute("books", books);
+//			request.setAttribute("pageNum", "");
+//			request.setAttribute("uID", id); 
+//			
+//			//マイページへフォワード
+//			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookList.jsp");
+//			dispatcher.forward(request, response);
+//
+//			}			
+					
+			
+		//方向をサーブレットで判断、ページ数の増減もここで行う。BookLogicでは増加用減少用と2つのメソッドを用いる。
+		//疑問点：この書き方はサーブレットに処理を書きすぎではないか。
 		} else if("bookList".equals(action)) {
 		//書籍リストと検索の画面へ
-			int page = Integer.parseInt(pageNum);
+			int pn = 0;
 			
 			BookLogic bl = new BookLogic();
-			ArrayList<Book> books = bl.BookList(id, page, direction);
+			ArrayList<Book> books = bl.BookList(id, pn);
 			
 			request.setAttribute("books", books);
-			request.setAttribute("pageNum", 0);//ページは初期値0
+			request.setAttribute("pageNum", pn);//ページは初期値0
 			request.setAttribute("uID", id); //IDはStringのまま渡す
+			request.setAttribute("info", "first");
 			
 			//マイページへフォワード
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookList.jsp");
 			dispatcher.forward(request, response);	
 
+			
 		} else if("getPaged".equals(action)) {
 		//書籍表示のページング
-			int page = Integer.parseInt(pageNum);
-						
+			
+			int pn = Integer.parseInt(pageNum);
+			int di = Integer.parseInt(direction);
 			BookLogic bl = new BookLogic();
-			ArrayList<Book> books = bl.BookList(id, page, direction);
 			
-			request.setAttribute("books", books);
-			request.setAttribute("pageNum", "");//ページは初期値0
-			request.setAttribute("uID", id); //IDはStringのまま渡す
+			//ページの方向を判断
+			if(di == 0) {
+				//前のページへ
+				pn -= 1;
+				ArrayList<Book> books = bl.BookListChange(id, pn);
+				
+				request.setAttribute("books", books);
+				request.setAttribute("pageNum", pn);//ページは初期値0
+				request.setAttribute("uID", id); //IDはStringのまま渡す
+				
+				//マイページへフォワード
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookList.jsp");
+				dispatcher.forward(request, response);
+				
+			}else if(di == 1) {
+				//次のページへ	
+				pn += 1;
+				ArrayList<Book> books = bl.BookListChange(id, pn);
+				
+				request.setAttribute("books", books);
+				request.setAttribute("pageNum", pn);//ページは初期値0
+				request.setAttribute("uID", id); //IDはStringのまま渡す
+				
+				//マイページへフォワード
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookList.jsp");
+				dispatcher.forward(request, response);
+			}
+						
+		
 			
-			//マイページへフォワード
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookList.jsp");
-			dispatcher.forward(request, response);	
 			
 			
+			
+			
+					
 		}else if ("editBookInfo".equals(action)){
 		//書籍情報編集画面へ
 			
@@ -450,26 +515,26 @@ public class LoginServlet extends HttpServlet {
 			dispatcher.forward(request, response);
 			
 			}
-			
-		}else if ("editBookInfo".equals(action)){
-		//アカウントメモを取得し、メモ編集画面へ
-			
-			//JSPから受け取ったIDを数字に変換
-			int uID = Integer.parseInt(id);
-			
-			//書籍情報一覧を取得
-			Memo memo = new Memo(uID);			
-			MemoLogic ml = new MemoLogic();
-			memo = ml.getMemoData(memo);
-		
-			HttpSession session = request.getSession();
-			session.setAttribute("aMemo", memo);
-			
-			//書籍情報編集画面へフォワード
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/EditMemo.jsp");
-			dispatcher.forward(request, response);
-			
 		}	
+//		else if ("editMemo".equals(action)){
+//		//アカウントメモを取得し、メモ編集画面へ
+//			
+//			//JSPから受け取ったIDを数字に変換
+//			int uID = Integer.parseInt(id);
+//			
+//			//書籍情報一覧を取得
+//			Memo memo = new Memo(uID);			
+//			MemoLogic ml = new MemoLogic();
+//			memo = ml.getMemoData(memo);
+//		
+//			HttpSession session = request.getSession();
+//			session.setAttribute("aMemo", memo);
+//			
+//			//書籍情報編集画面へフォワード
+//			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/EditMemo.jsp");
+//			dispatcher.forward(request, response);
+//			
+//		}	
 	}
 }
 		

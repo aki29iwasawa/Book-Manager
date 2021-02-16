@@ -43,9 +43,9 @@ public class LoginLogic {
 	}
 	
 	//mypageの更新、メモ情報取得
-	public Memo getAccountMemo(int uID) {
+	public ArrayList<Memo> getAccountMemo(int uID) {
 		MemoDAO dao = new MemoDAO();
-		Memo aMemo = dao.getAccountMemo(uID);
+		ArrayList<Memo> aMemo = dao.getAccountMemo(uID);
 		return aMemo;
 	}
 	
