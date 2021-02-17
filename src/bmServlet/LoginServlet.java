@@ -326,54 +326,55 @@ public class LoginServlet extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/mypage.jsp");
 			dispatcher.forward(request, response);		
 			
-//			
-//		//BookListを使う処理。	
-//		//これだとページの増やし方で問題が起きるので一旦別の方法で。
-//		} else if("bookList".equals(action)) {
-//		//書籍リストと検索の画面へ
-//			
-//			BookLogic bl = new BookLogic();
-//			ArrayList<Book> books = bl.BookList(id, pageNum, direction);
-//			
-//			request.setAttribute("books", books);
-//			request.setAttribute("pageNum", 0);//ページは初期値0
-//			request.setAttribute("uID", id); //IDはStringのまま渡す
-//			
-//			//マイページへフォワード
-//			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookList.jsp");
-//			dispatcher.forward(request, response);	
-//
-//		} else if("getPaged".equals(action)) {
-//		//書籍表示のページング
-//
-//			
-//			BookLogic bl = new BookLogic();
-//			ArrayList<Book> books = bl.BookList(id, pageNum, direction);
-//			
-//			request.setAttribute("books", books);
-//			request.setAttribute("pageNum", "");
-//			request.setAttribute("uID", id); 
-//			
-//			//マイページへフォワード
-//			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookList.jsp");
-//			dispatcher.forward(request, response);
-//
-//			}			
+			
+		//BookListを使う処理。	
+		//これだとページの増やし方で問題が起きるので一旦別の方法で。
+		} else if("bookList".equals(action)) {
+		//書籍リストと検索の画面へ
+			
+			BookLogic bl = new BookLogic();
+			ArrayList<Book> books = bl.BookList(request, id, pageNum, direction);
+			
+			request.setAttribute("books", books);
+			request.setAttribute("pageNum", 0);//ページは初期値0
+			request.setAttribute("uID", id); //IDはStringのまま渡す
+			
+			//マイページへフォワード
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookList.jsp");
+			dispatcher.forward(request, response);	
+
+		} else if("getPaged".equals(action)) {
+		//書籍表示のページング
+
+			
+			BookLogic bl = new BookLogic();
+			ArrayList<Book> books = bl.BookList(id, pageNum, direction);
+			
+			request.setAttribute("books", books);
+			request.setAttribute("pageNum", "");
+			request.setAttribute("uID", id); 
+			
+			//マイページへフォワード
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookList.jsp");
+			dispatcher.forward(request, response);
+
+			}			
 					
 			
 		//方向をサーブレットで判断、ページ数の増減もここで行う。BookLogicでは増加用減少用と2つのメソッドを用いる。
 		//疑問点：この書き方はサーブレットに処理を書きすぎではないか。
 		} else if("bookList".equals(action)) {
 		//書籍リストと検索の画面へ
-			int pn = 0;
+//			int uID = Integer.parseInt(id);
+//			int pn = 0;
 			
 			BookLogic bl = new BookLogic();
 			ArrayList<Book> books = bl.BookList(id, pn);
 			
-			request.setAttribute("books", books);
-			request.setAttribute("pageNum", pn);//ページは初期値0
-			request.setAttribute("uID", id); //IDはStringのまま渡す
-			request.setAttribute("info", "first");
+//			request.setAttribute("books", books);
+//			request.setAttribute("pageNum", pn);//ページは初期値0
+//			request.setAttribute("uID", uID);
+//			request.setAttribute("info", "first");
 			
 			//マイページへフォワード
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookList.jsp");
@@ -383,6 +384,7 @@ public class LoginServlet extends HttpServlet {
 		} else if("getPaged".equals(action)) {
 		//書籍表示のページング
 			
+			int uID = Integer.parseInt(id);
 			int pn = Integer.parseInt(pageNum);
 			int di = Integer.parseInt(direction);
 			BookLogic bl = new BookLogic();
@@ -394,8 +396,8 @@ public class LoginServlet extends HttpServlet {
 				ArrayList<Book> books = bl.BookListChange(id, pn);
 				
 				request.setAttribute("books", books);
-				request.setAttribute("pageNum", pn);//ページは初期値0
-				request.setAttribute("uID", id); //IDはStringのまま渡す
+				request.setAttribute("pageNum", pn);
+				request.setAttribute("uID", uID);
 				
 				//マイページへフォワード
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookList.jsp");

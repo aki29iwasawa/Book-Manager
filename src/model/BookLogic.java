@@ -1,10 +1,13 @@
 package model;
 
 import java.util.ArrayList;
-
+import javax.servlet.http.HttpServletRequest;
 import dao.BookDAO;
 
+
 public class BookLogic {
+	//コンストラクタ作って、リクエストを渡す
+	
 	//書籍検索、一覧画面「前へ」
 	public ArrayList<Book> BookListChange(String id, int pageNum){
 		int uID = Integer.parseInt(id);
@@ -33,51 +36,56 @@ public class BookLogic {
 	
 	
 
-////model内で方向判断をしたいが、戻せる値が一つのみなので、リストとページナンバーふたつをサーブレットに返せない。
-////リクエストスコープへの保存はサーブレットからしかできないのか。
-//
-//
-//	public ArrayList<Book> BookList(String id, String pageNum, String direction) {
-//		int uID = Integer.parseInt(id);
-//		int pn = Integer.parseInt(pageNum);
-//		int di = Integer.parseInt(direction);
-//		
-//		//前のページへ行くか次のページへ行くか
-//		if(di == 0) {
-//			//前のページへ	
-//			
-//			//ページナンバーを1減らす
-//			pn -= 1;
-//			
-//			//表示させたい書籍数
-//			int min = pn * 10;
-//			int max = min + 9;
-//			
-//			BookDAO dao = new BookDAO();
-//			ArrayList<Book> bookDatas = dao.getBook(uID, min, max);	
-//	
-////ここでリクエスト保存ができたらいいなぁと思う。が、エラーが出てしまう。
-//
-//			return bookDatas;
-//			
-//		}else {
-//			//次のページへ行く処理
-//			
-//			//ページナンバーに1増やす
-//			pn += 1;
-//			
-//			//表示させたい書籍数
-//			int min = pn * 10;
-//			int max = min + 9;
-//					
-//			BookDAO dao = new BookDAO();			
-//			ArrayList<Book> bookDatas = dao.getBook(uID, min, max);
-//	
-//	
-//			return bookDatas;
-//		}
-//
-//	}
+//model内で方向判断をしたいが、戻せる値が一つのみなので、リストとページナンバーふたつをサーブレットに返せない。
+//リクエストスコープへの保存はサーブレットからしかできないのか。
+
+
+	public ArrayList<Book> BookList(HttpServletRequest request, String id, String pageNum, String direction) {
+		int uID = Integer.parseInt(id);
+		int pn = Integer.parseInt(pageNum);
+		int di = Integer.parseInt(direction);
+		
+		//前のページへ行くか次のページへ行くか
+		if(di == 0) {
+			//前のページへ	
+			
+			//ページナンバーを1減らす
+			pn -= 1;
+			
+			//表示させたい書籍数
+			int min = pn * 10;
+			int max = min + 9;
+			
+			BookDAO dao = new BookDAO();
+			ArrayList<Book> bookDatas = dao.getBook(uID, min, max);	
+
+			
+			request.setAttribute("books", books);
+			request.setAttribute("pageNum", pn);
+			request.setAttribute("uID", uID);
+			
+//ここでリクエスト保存ができたらいいなぁと思う。が、エラーが出てしまう。
+
+			return bookDatas;
+			
+		}else {
+			//次のページへ行く処理
+			
+			//ページナンバーに1増やす
+			pn += 1;
+			
+			//表示させたい書籍数
+			int min = pn * 10;
+			int max = min + 9;
+					
+			BookDAO dao = new BookDAO();			
+			ArrayList<Book> bookDatas = dao.getBook(uID, min, max);
+	
+	
+			return bookDatas;
+		}
+
+	}
 	
 	//本の詳細情報を表示する
 	public Book getBookData(Book book) {

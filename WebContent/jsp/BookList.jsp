@@ -15,7 +15,7 @@
 		<form action="/bm/BmServlet" method="post">
 		<button>マイページへ</button>
 		<input type="hidden" name="action" value="toMypage">
-		<input type="hidden" name="id" value="${BookInfo.userID}">
+		<input type="hidden" name="id" value="${uID}">
 		</form>
 	
 		<p>aaaa ${uID}</p>
@@ -25,14 +25,14 @@
 		<form action="/bm/BmServlet" method="post">
 		<button type="submit">書籍を追加</button>
 		<input type="hidden" name="action" value="addBook">
-		<input type="hidden" name="id" value="${uInfo.id}">
+		<input type="hidden" name="id" value="${uID}">
 		</form>
 		
 				
 		<form id="prev" action="/bm/BmServlet" method="post">
 			<button type="submit">前へ</button>
 			<input type="hidden" name="action" value="getPaged">
-			<input type="hidden" name="id" value="${uInfo.id}">
+			<input type="hidden" name="id" value="${uID}">
 			<input type="hidden" name="pageNum" value="${pageNum}">
 			<input type="hidden" name="direction" value="0">
 		</form>
@@ -40,7 +40,7 @@
 		<form action="/bm/BmServlet" method="post">
 			<button type="submit">次へ</button>
 			<input type="hidden" name="action" value="getPaged">
-			<input type="hidden" name="id" value="${uInfo.id}">
+			<input type="hidden" name="id" value="${uID}">
 			<input type="hidden" name="pageNum" value="${pageNum}">
 			<input type="hidden" name="direction" value="1">
 		</form>

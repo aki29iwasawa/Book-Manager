@@ -35,12 +35,17 @@
 		<p>${uInfo.mail}</p>
 		
 		<h2 class="center">新規メモ</h2>
+		
 		<form action="/bm/BmServlet" method="post">
 		<button type="submit">全てのメモを見る</button>
-		<input type="hidden" name="action" value="EditMemo">
+		<input type="hidden" name="action" value="showAllMemo">
 		<input type="hidden" name="id" value="${uInfo.id}">
 		</form>
-		<p>${aMemo.accountMemo}</p>
+		
+		<c:forEach var="memo" items="${aMemo}">
+			<p>${memo.accountMemo}</p>
+		</c:forEach>
+
 		
 		<h2 class="center">最近追加した本</h2>
 		

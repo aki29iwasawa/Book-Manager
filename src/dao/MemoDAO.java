@@ -11,10 +11,9 @@ import model.Memo;
 
 public class MemoDAO {
 	//新規アカウントメモを3件分取得
-	@SuppressWarnings("null")
-	public ArrayList<Memo> getAccountMemo(int uID) {	
+	public ArrayList<Memo> getNewMemo(int uID) {	
 		Connection conn = null;
-		ArrayList<Memo> aMemo = null;
+		ArrayList<Memo> aMemo = new ArrayList<Memo>();
 		
 		try {
 			
@@ -25,7 +24,7 @@ public class MemoDAO {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bm?serverTimezone=JST", "root", "pass");
 			
 			//select文		
-			String sql = "SELECT * FROM accountMemo WHERE userID = ?"
+			String sql = "SELECT * FROM amemo WHERE userID = ?"
 							+ " limit 3";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 
