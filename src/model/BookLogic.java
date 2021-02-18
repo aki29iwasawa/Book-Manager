@@ -38,9 +38,7 @@ public class BookLogic {
 
 //model内で方向判断をしたいが、戻せる値が一つのみなので、リストとページナンバーふたつをサーブレットに返せない。
 //リクエストスコープへの保存はサーブレットからしかできないのか。
-
-
-	public ArrayList<Book> BookList(HttpServletRequest request, String id, String pageNum, String direction) {
+	public void BookList(HttpServletRequest request, String id, String pageNum, String direction) {
 		int uID = Integer.parseInt(id);
 		int pn = Integer.parseInt(pageNum);
 		int di = Integer.parseInt(direction);
@@ -60,14 +58,11 @@ public class BookLogic {
 			ArrayList<Book> bookDatas = dao.getBook(uID, min, max);	
 
 			
-			request.setAttribute("books", books);
+			request.setAttribute("books", bookDatas);
 			request.setAttribute("pageNum", pn);
 			request.setAttribute("uID", uID);
 			
-//ここでリクエスト保存ができたらいいなぁと思う。が、エラーが出てしまう。
-
-			return bookDatas;
-			
+//ここでリクエスト保存ができたらいいなぁと思う。が、エラーが出てしまう。			
 		}else {
 			//次のページへ行く処理
 			
@@ -81,8 +76,9 @@ public class BookLogic {
 			BookDAO dao = new BookDAO();			
 			ArrayList<Book> bookDatas = dao.getBook(uID, min, max);
 	
-	
-			return bookDatas;
+			request.setAttribute("books", bookDatas);
+			request.setAttribute("pageNum", pn);
+			request.setAttribute("uID", uID);
 		}
 
 	}
