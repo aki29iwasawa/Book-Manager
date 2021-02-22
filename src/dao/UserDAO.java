@@ -9,12 +9,11 @@ import model.User;
 
 //user tableの処理
 
-public class BmDAO {
-	
-	//ユーザー情報を取得
-	public User RefleshUserInfo(int uID) {	
+public class UserDAO {
+	//新規ユーザーを登録
+	public boolean create(User user) {
+		
 		Connection conn = null;
-		User user = null;
 		
 		try {
 			
@@ -24,46 +23,38 @@ public class BmDAO {
 			//データベース接続
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bm?serverTimezone=JST", "root", "pass");
 			
-			//select文		
-			String sql = "SELECT * FROM user WHERE id = ?";
+			//insert文　データの格納		
+			String sql = "insert into user (mail, password) values (?, ?)";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 
-			pstmt.setInt(1, uID);
-						
+			pstmt.setString(1, user.getMail());
+			pstmt.setString(2, user.getPass());
+			
 			//SQL実行、結果取得
-			ResultSet rs = pstmt.executeQuery();
+			int result = pstmt.executeUpdate();
 			
-			//ユーザーが存在
-			if(rs.next()) {
-				//データを取得
-				int id = rs.getInt("id");
-				String mail = rs.getString("mail");
-				String pass = rs.getString("password");
-			
-				user = new User(id, mail, pass);
+			if(result !=1) {
+				return false;
 			}
 		} catch(SQLException e) {
-			System.out.println("データベースへのアクセスでエラーが発生しました。");
 			e.printStackTrace();
-			return null;
+			return false;
 		} catch(ClassNotFoundException e) {
-			System.out.println("JDBCドライバのロードでエラーが発生しました");
 			e.printStackTrace();
-			return null;
+			return false;
 		} finally {
 			//データベース切断
 			if(conn != null) {
 				try {
 					conn.close();
 				} catch(SQLException e) {
-					System.out.println("finallyデータベースへのアクセスでエラーが発生しました。");
 					e.printStackTrace();
-					return null;
+					return false;
 				}
 			}
 		}
-		return user;
-	}
+		return true;
+		}
 
 	//ログイン処理
 	public User findByLogin(User bmLogin) {	
@@ -120,10 +111,10 @@ public class BmDAO {
 		return user;
 	}
 	
-	//新規ユーザーを登録
-	public boolean create(User user) {
-		
+	//IDからユーザー情報を取得
+	public User RefleshUserInfo(int uID) {	
 		Connection conn = null;
+		User user = null;
 		
 		try {
 			
@@ -133,38 +124,46 @@ public class BmDAO {
 			//データベース接続
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bm?serverTimezone=JST", "root", "pass");
 			
-			//insert文　データの格納		
-			String sql = "insert into user (mail, password) values (?, ?)";
+			//select文		
+			String sql = "SELECT * FROM user WHERE id = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 
-			pstmt.setString(1, user.getMail());
-			pstmt.setString(2, user.getPass());
-			
+			pstmt.setInt(1, uID);
+						
 			//SQL実行、結果取得
-			int result = pstmt.executeUpdate();
+			ResultSet rs = pstmt.executeQuery();
 			
-			if(result !=1) {
-				return false;
+			//ユーザーが存在
+			if(rs.next()) {
+				//データを取得
+				int id = rs.getInt("id");
+				String mail = rs.getString("mail");
+				String pass = rs.getString("password");
+			
+				user = new User(id, mail, pass);
 			}
 		} catch(SQLException e) {
+			System.out.println("データベースへのアクセスでエラーが発生しました。");
 			e.printStackTrace();
-			return false;
+			return null;
 		} catch(ClassNotFoundException e) {
+			System.out.println("JDBCドライバのロードでエラーが発生しました");
 			e.printStackTrace();
-			return false;
+			return null;
 		} finally {
 			//データベース切断
 			if(conn != null) {
 				try {
 					conn.close();
 				} catch(SQLException e) {
+					System.out.println("finallyデータベースへのアクセスでエラーが発生しました。");
 					e.printStackTrace();
-					return false;
+					return null;
 				}
 			}
 		}
-		return true;
-		}
+		return user;
+	}
 
 	//ユーザー情報の更新
 	public boolean updateUser(User user) {
@@ -172,7 +171,6 @@ public class BmDAO {
 		Connection conn = null;
 		
 		try {
-			
 			//JDBCドライバの読み込み
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			
@@ -215,7 +213,7 @@ public class BmDAO {
 	}
 	
 	//アカウント情報の削除
-	public boolean deleteUser(User user) {
+	public boolean deleteUser(int uID) {
 		Connection conn = null;
 		
 		try {			
@@ -230,7 +228,7 @@ public class BmDAO {
 					+ " where id = ? ";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 
-			pstmt.setInt(1, user.getId());
+			pstmt.setInt(1, uID);
 						
 			//SQL実行、結果取得
 			

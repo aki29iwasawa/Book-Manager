@@ -1,12 +1,54 @@
 package model;
 
 import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
+
+//import javax.servlet.http.HttpServletRequest;
 import dao.BookDAO;
 
 
 public class BookLogic {
 	//コンストラクタ作って、リクエストを渡す
+	private String userID;
+//	private String mail;
+//	private String pass;
+	private String bookID;
+	
+	public BookLogic(HttpServletRequest request) {
+		//リクエストパラメータを取得
+		this.userID =request.getParameter("userID");
+//		this.mail =((ServletRequest) request).getParameter("mail");
+//		this.pass =((ServletRequest) request).getParameter("password");
+		
+		this.bookID =request.getParameter("bookID");		
+		
+		
+	}
+	
+	
+	//書籍情報を一冊分取得
+	public void getBookInfo(HttpServletRequest request){	
+		//JSPから受け取ったIDをintに変換
+		int uID = Integer.parseInt(userID);
+		int bID = Integer.parseInt(bookID);
+		
+		//書籍情報一覧を取得
+		Book book = new Book(bID, uID);			
+//		BookLogic bl = new BookLogic();
+//		book = bl.getBookData(book);
+		
+		BookDAO dao = new BookDAO();
+		Book bookData = dao.getOneBookData(book);
+
+		
+		
+		request.setAttribute("BookInfo", bookData);
+	}
+	
+	
+	
+	
 	
 	//書籍検索、一覧画面「前へ」
 	public ArrayList<Book> BookListChange(String id, int pageNum){
@@ -38,7 +80,8 @@ public class BookLogic {
 
 //model内で方向判断をしたいが、戻せる値が一つのみなので、リストとページナンバーふたつをサーブレットに返せない。
 //リクエストスコープへの保存はサーブレットからしかできないのか。
-	public void BookList(HttpServletRequest request, String id, String pageNum, String direction) {
+	public ArrayList<Book> BookList(String id, String pageNum, String direction) {
+//	public void BookList(HttpServletRequest request, String id, String pageNum, String direction) {
 		int uID = Integer.parseInt(id);
 		int pn = Integer.parseInt(pageNum);
 		int di = Integer.parseInt(direction);
@@ -57,10 +100,11 @@ public class BookLogic {
 			BookDAO dao = new BookDAO();
 			ArrayList<Book> bookDatas = dao.getBook(uID, min, max);	
 
+			return bookDatas;
 			
-			request.setAttribute("books", bookDatas);
-			request.setAttribute("pageNum", pn);
-			request.setAttribute("uID", uID);
+//			request.setAttribute("books", bookDatas);
+//			request.setAttribute("pageNum", pn);
+//			request.setAttribute("uID", uID);
 			
 //ここでリクエスト保存ができたらいいなぁと思う。が、エラーが出てしまう。			
 		}else {
@@ -75,11 +119,15 @@ public class BookLogic {
 					
 			BookDAO dao = new BookDAO();			
 			ArrayList<Book> bookDatas = dao.getBook(uID, min, max);
+			
+			return bookDatas;
 	
-			request.setAttribute("books", bookDatas);
-			request.setAttribute("pageNum", pn);
-			request.setAttribute("uID", uID);
+//			request.setAttribute("books", bookDatas);
+//			request.setAttribute("pageNum", pn);
+//			request.setAttribute("uID", uID);
+			
 		}
+
 
 	}
 	
