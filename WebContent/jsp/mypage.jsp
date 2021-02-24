@@ -38,7 +38,7 @@
 		
 		<form action="/bm/BmServlet" method="post">
 		<button type="submit">全てのメモを見る</button>
-		<input type="hidden" name="action" value="showAllMemo">
+		<input type="hidden" name="action" value="memoList">
 		<input type="hidden" name="id" value="${uInfo.id}">
 		</form>
 		

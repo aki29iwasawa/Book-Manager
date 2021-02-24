@@ -24,7 +24,7 @@ public class MemoDAO {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bm?serverTimezone=JST", "root", "pass");
 			
 			//select文		
-			String sql = "SELECT * FROM amemo WHERE userID = ?"
+			String sql = "SELECT * FROM memo WHERE userID = ?"
 							+ " limit 3";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 
@@ -74,29 +74,40 @@ public class MemoDAO {
 		return aMemo;
 	}
 
-//	//メモを全件取得
-//	public Memo getAllaMemo(int memo) {
-//		Connection conn = null;
-//		Memo aMemo = null;
-//		
-//		try {
-//			
-//			//JDBCドライバの読み込み
-//			Class.forName("com.mysql.cj.jdbc.Driver");
-//			
-//			//データベース接続
-//			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bm?serverTimezone=JST", "root", "pass");
-//			
-//			//select文		
-//			String sql = "SELECT * FROM accountMemo WHERE userID = ?";
-//			PreparedStatement pstmt = conn.prepareStatement(sql);
-//
-//			pstmt.setInt(1, memo);
-//						
-//			//SQL実行、結果取得
-//			ResultSet rs = pstmt.executeQuery();
-//			
+	//メモを全件取得
+	public ArrayList<Memo> getAllaMemo(int uID) {
+		Connection conn = null;
+		ArrayList<Memo> aMemo = new ArrayList<Memo>();
+		
+		try {
+			
+			//JDBCドライバの読み込み
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			
+			//データベース接続
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bm?serverTimezone=JST", "root", "pass");
+			
+			//select文		
+			String sql = "SELECT * FROM memo WHERE userID = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+
+			pstmt.setInt(1, uID);
+						
+			//SQL実行、結果取得
+			ResultSet rs = pstmt.executeQuery();
+			
+			//データを取得
+			while(rs.next()) {
+			
+			int id = rs.getInt("id");
+			String memo = rs.getString("memo");
+			int userID = rs.getInt("userID");
+			
+			aMemo.add(new Memo(id, memo, userID));	
+			}
+			
 //			//データが存在するか
+//			
 //			if(rs.next()) {
 //				//データを取得
 //				String allMemo = rs.getString("memo");
@@ -105,28 +116,28 @@ public class MemoDAO {
 //				String allMemo = "メモが見つかりませんでした";
 //				aMemo = new Memo(memo);
 //			}
-//			
-//		} catch(SQLException e) {
-//			System.out.println("データベースへのアクセスでエラーが発生しました。");
-//			e.printStackTrace();
-//			return null;
-//		} catch(ClassNotFoundException e) {
-//			System.out.println("JDBCドライバのロードでエラーが発生しました");
-//			e.printStackTrace();
-//			return null;
-//		} finally {
-//			//データベース切断
-//			if(conn != null) {
-//				try {
-//					conn.close();
-//				} catch(SQLException e) {
-//					System.out.println("finallyデータベースへのアクセスでエラーが発生しました。");
-//					e.printStackTrace();
-//					return null;
-//				}
-//			}
-//		}
-//		return aMemo;
-//	}
+			
+		} catch(SQLException e) {
+			System.out.println("データベースへのアクセスでエラーが発生しました。");
+			e.printStackTrace();
+			return null;
+		} catch(ClassNotFoundException e) {
+			System.out.println("JDBCドライバのロードでエラーが発生しました");
+			e.printStackTrace();
+			return null;
+		} finally {
+			//データベース切断
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch(SQLException e) {
+					System.out.println("finallyデータベースへのアクセスでエラーが発生しました。");
+					e.printStackTrace();
+					return null;
+				}
+			}
+		}
+		return aMemo;
+	}
 
 }

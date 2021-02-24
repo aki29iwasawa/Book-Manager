@@ -234,8 +234,7 @@ public class BookDAO {
 	
 	
 	//書籍情報全件取得。10件ずつ。
-	public ArrayList<Book> getBook(int uID, int min, int max) {	
-		//パラメーターlimitを増やす〇
+	public ArrayList<Book> getBook(int uID, int min) {	
 		Connection conn = null;
 		ArrayList<Book> bookDatas = new ArrayList<Book>();
 		
@@ -251,13 +250,13 @@ public class BookDAO {
 			String sql = "select id, title, author, publisher, userID"
 					+ " from book"
 					+ " where userID = ? "
-					+ " limit ?,?";
+					+ " limit ?,10";
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 
 			pstmt.setInt(1, uID);
 			pstmt.setInt(2, min);
-			pstmt.setInt(3, max);
+//			pstmt.setInt(3, max);
 						
 			//SQL実行、結果取得
 			ResultSet rs = pstmt.executeQuery();

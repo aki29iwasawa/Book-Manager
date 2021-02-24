@@ -20,6 +20,7 @@ import model.LoginLogic;
 //import model.MemoLogic;
 //import model.SignUpLogic;
 //import model.User;
+import model.MemoLogic;
 
 
 /**
@@ -81,7 +82,7 @@ public class LoginServlet extends HttpServlet {
 ////		String title =request.getParameter("title");
 ////		String author =request.getParameter("author");
 ////		String publisher =request.getParameter("publisher");
-//		String userID =request.getParameter("userID");
+		String userID =request.getParameter("userID");
 //		
 //		String pageNum =request.getParameter("pageNum");
 //		String direction =request.getParameter("direction");
@@ -105,7 +106,7 @@ public class LoginServlet extends HttpServlet {
 			boolean result = lo.createAccount(request);
 			
 			if(result) {
-				//マイページへフォワード
+				//マイページへ
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/mypage.jsp");
 				dispatcher.forward(request, response);
 			}else {
@@ -119,7 +120,7 @@ public class LoginServlet extends HttpServlet {
 			LoginLogic lo = new LoginLogic(request);
 			lo.Login(request);
 			
-			//マイページへフォワード
+			//マイページへ
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/mypage.jsp");
 			dispatcher.forward(request, response);
 			
@@ -130,7 +131,7 @@ public class LoginServlet extends HttpServlet {
 //			HttpSession session = request.getSession();
 //			session.invalidate();
 		
-			//トップページへ遷移
+			//トップページへ
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/ForwardBm.jsp");
 			dispatcher.forward(request, response);
 
@@ -143,7 +144,7 @@ public class LoginServlet extends HttpServlet {
 			LoginLogic lo = new LoginLogic(request);
 			lo.toMypage(request, uID);
 
-			//マイページへフォワード
+			//マイページへ
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/mypage.jsp");
 			dispatcher.forward(request, response);
 	
@@ -153,7 +154,7 @@ public class LoginServlet extends HttpServlet {
 			LoginLogic lo = new LoginLogic(request);
 			lo.getUserInfo(request);
 				
-			//書籍情報編集画面へフォワード
+			//書籍情報編集画面へ
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/EditUser.jsp");
 			dispatcher.forward(request, response);
 			
@@ -163,7 +164,7 @@ public class LoginServlet extends HttpServlet {
 			LoginLogic lo = new LoginLogic(request);
 			lo.updateUser(request);
 			
-			//マイページへフォワード
+			//マイページへ
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/mypage.jsp");
 			dispatcher.forward(request, response);
 						
@@ -174,270 +175,121 @@ public class LoginServlet extends HttpServlet {
 			LoginLogic lo = new LoginLogic(request);
 			lo.deleteUser(request);
 
-			//トップページへ遷移
+			//トップページへ
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/ForwardBm.jsp");
 			dispatcher.forward(request, response);
 		
 
 		} else if ("getBookInfo".equals(action)){
-		//書籍情報の詳細を取得
+		//書籍の詳細を取得（一冊）し、書籍表示画面へ
 
 			BookLogic bo = new BookLogic(request);
 			bo.getBookInfo(request);
 			
-			//書籍詳細画面へフォワード
+			//書籍表示画面へ
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookInfo.jsp");
+			dispatcher.forward(request, response);	
+		
+			
+		} else if ("editBook".equals(action)){
+		//書籍の詳細を取得し、情報編集画面へ
+
+			BookLogic bo = new BookLogic(request);
+			bo.getBookInfo(request);
+			
+			//書籍情報編集画面へ
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/EditBook.jsp");
+			dispatcher.forward(request, response);	
+
+			
+		}else if ("updateBook".equals(action)){
+		//書籍情報を更新し、書籍表示画面へ
+		
+			BookLogic bo = new BookLogic(request);
+			bo.updateBook(request);
+		
+			//書籍表示画面へ
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookInfo.jsp");
 			dispatcher.forward(request, response);
-		}}}				
+		
+		
+		} else if("deleteBook".equals(action)) {
+		//書籍情報を削除
 			
-//		} else if("deleteBook".equals(action)) {
-//		//書籍情報を削除
-//			
-//			//JSPから受け取ったIDを数字に変換
-//			int bID = Integer.parseInt(bookID);
-//			int uID = Integer.parseInt(userID);
-//			
-//			//書籍の削除を実行
-//			Book book = new Book(bID, uID);			
-//			BookLogic bl = new BookLogic();
-//			boolean rs = bl.deleteBookData(book);
-//			
-//			String aMess = null;
-//			if(rs) {
-//				aMess = "書籍の削除が完了しました";
-//			}else if(!rs) {
-//				aMess = "エラーが発生しました";
-//			}			
-//			//マイページの情報を更新
-//			LoginLogic lo = new LoginLogic();
-//			User uInfo = lo.getUserInfo(uID);
-//			ArrayList<Memo> aMemo = lo.getAccountMemo(uID);
-//			ArrayList<Book> bookInfo = lo.getBookInfo(uID);
-//			
-//			//セッションにデータを保存
-//			HttpSession session = request.getSession();
-//			session.setAttribute("uInfo", uInfo);
-//			session.setAttribute("aMemo", aMemo);
-//			session.setAttribute("books", bookInfo);
-//			session.setAttribute("aMess", aMess);
-//			
-//			//マイページへフォワード
-//			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/mypage.jsp");
-//			dispatcher.forward(request, response);		
-//			
-//			
-//		//BookListを使う処理。	
-//		//これだとページの増やし方で問題が起きるので一旦別の方法で。
-//		} else if("bookList".equals(action)) {
-//		//書籍リストと検索の画面へ
-//			
-//			BookLogic bl = new BookLogic();
-//			ArrayList<Book> books = bl.BookList(id, pageNum, direction);
-////			ArrayList<Book> books = bl.BookList(request, id, pageNum, direction);
-//			
-//			request.setAttribute("books", books);
-//			request.setAttribute("pageNum", 0);//ページは初期値0
-//			request.setAttribute("uID", id); //IDはStringのまま渡す
-//			
-//			//マイページへフォワード
-//			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookList.jsp");
-//			dispatcher.forward(request, response);	
-//
-//		} else if("getPaged".equals(action)) {
-//		//書籍表示のページング
-//
-//			
-//			BookLogic bl = new BookLogic();
-//			ArrayList<Book> books = bl.BookList(id, pageNum, direction);
-////			ArrayList<Book> books = bl.BookList(request, id, pageNum, direction);
-//			
-//			request.setAttribute("books", books);
-//			request.setAttribute("pageNum", "");
-//			request.setAttribute("uID", id); 
-//			
-//			//マイページへフォワード
-//			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookList.jsp");
-//			dispatcher.forward(request, response);
-//
-//			}			
-//					
-////			
-////		//方向をサーブレットで判断、ページ数の増減もここで行う。BookLogicでは増加用減少用と2つのメソッドを用いる。
-////		//疑問点：この書き方はサーブレットに処理を書きすぎではないか。
-////		} else if("bookList".equals(action)) {
-////		//書籍リストと検索の画面へ
-//////			int uID = Integer.parseInt(id);
-//////			int pn = 0;
-////			
-////			BookLogic bl = new BookLogic();
-////			ArrayList<Book> books = bl.BookList(id, pn);
-////			
-//////			request.setAttribute("books", books);
-//////			request.setAttribute("pageNum", pn);//ページは初期値0
-//////			request.setAttribute("uID", uID);
-//////			request.setAttribute("info", "first");
-////			
-////			//マイページへフォワード
-////			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookList.jsp");
-////			dispatcher.forward(request, response);	
-////
-////			
-////		} else if("getPaged".equals(action)) {
-////		//書籍表示のページング
-////			
-////			int uID = Integer.parseInt(id);
-////			int pn = Integer.parseInt(pageNum);
-////			int di = Integer.parseInt(direction);
-////			BookLogic bl = new BookLogic();
-////			
-////			//ページの方向を判断
-////			if(di == 0) {
-////				//前のページへ
-////				pn -= 1;
-////				ArrayList<Book> books = bl.BookListChange(id, pn);
-////				
-////				request.setAttribute("books", books);
-////				request.setAttribute("pageNum", pn);
-////				request.setAttribute("uID", uID);
-////				
-////				//マイページへフォワード
-////				RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookList.jsp");
-////				dispatcher.forward(request, response);
-////				
-////			}else if(di == 1) {
-////				//次のページへ	
-////				pn += 1;
-////				ArrayList<Book> books = bl.BookListChange(id, pn);
-////				
-////				request.setAttribute("books", books);
-////				request.setAttribute("pageNum", pn);//ページは初期値0
-////				request.setAttribute("uID", id); //IDはStringのまま渡す
-////				
-////				//マイページへフォワード
-////				RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookList.jsp");
-////				dispatcher.forward(request, response);
-////			}
-////						
-////		
-//			
-//			
-//			
-////		
-////		
-////					
-////		}else if ("editBookInfo".equals(action)){
-////		//書籍情報編集画面へ
-////			
-////			//JSPから受け取ったIDを数字に変換
-////			int bID = Integer.parseInt(bookID);
-////			int uID = Integer.parseInt(userID);
-////			
-////			//書籍情報一覧を取得
-////			Book book = new Book(bID, uID);			
-////			BookLogic bl = new BookLogic();
-////			book = bl.getBookData(book);
-////			
-////			HttpSession session = request.getSession();
-////			session.setAttribute("BookInfo", book);
-////			
-////			//書籍情報編集画面へフォワード
-////			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/EditBook.jsp");
-////			dispatcher.forward(request, response);
-////			
-////		}else if ("updateBook".equals(action)){
-////		//書籍情報を編集し、書籍情報画面へ
-////			
-////			//JSPから受け取ったIDを数字に変換
-////			int bID = Integer.parseInt(bookID);
-////			int uID = Integer.parseInt(userID);
-////			
-////			Book nbook = new Book(bID, title, author, publisher, uID);
-////			BookLogic blo = new BookLogic();
-////			boolean rs = blo.updateBook(nbook);
-////			
-////			String aMess = null;
-////			if(!rs) {
-////				aMess ="エラーが発生しました";
-////			} else {
-////				aMess ="書籍情報を保存しました";
-////			
-////			//書籍情報一覧を取得
-////			Book book = new Book(bID, uID);			
-////			BookLogic bl = new BookLogic();
-////			book = bl.getBookData(book);
-////			
-////			HttpSession session = request.getSession();
-////			session.setAttribute("BookInfo", book);
-////			session.setAttribute("aMess", aMess);
-////			
-////			//書籍情報編集画面へフォワード
-////			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookInfo.jsp");
-////			dispatcher.forward(request, response);
-////			}
-////			
-////		}else if ("addBook".equals(action)){
-////		//書籍追加画面へ
-////			
-////			HttpSession session = request.getSession();
-////			session.setAttribute("uID", id);
-////			
-////			//書籍情報編集画面へフォワード
-////			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/AddBook.jsp");
-////			dispatcher.forward(request, response);
-////		
-////		}else if ("addNewBook".equals(action)){
-////			//書籍情報を編集し、書籍情報画面へ
-////			
-////			//JSPから受け取ったIDを数字に変換
-////			int uID = Integer.parseInt(userID);
-////			
-////			Book nbook = new Book(title, author, publisher, uID);
-////			BookLogic blo = new BookLogic();
-////			boolean rs = blo.addBook(nbook);
-////			
-////			String aMess = null;
-////			if(!rs) {
-////				aMess ="エラーが発生しました";
-////			} else {
-////				aMess ="書籍情報を保存しました";
-////
-////
-////			//マイページの情報を更新
-////			LoginLogic bo = new LoginLogic();
-////			User uInfo = bo.getUserInfo(uID);				
-////			ArrayList<Book> bookInfo = bo.getBookInfo(uID);
-////			
-////			//セッションにデータを保存
-////			HttpSession session = request.getSession();
-////			session.setAttribute("uInfo", uInfo);
-////			session.setAttribute("books", bookInfo);
-////			session.setAttribute("aMess", aMess);
-////			
-////			//マイページへフォワード
-////			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/mypage.jsp");
-////			dispatcher.forward(request, response);
-////			
-////			}
-////		}	
-////		else if ("editMemo".equals(action)){
-////		//アカウントメモを取得し、メモ編集画面へ
-////			
-////			//JSPから受け取ったIDを数字に変換
-////			int uID = Integer.parseInt(id);
-////			
-////			//書籍情報一覧を取得
-////			Memo memo = new Memo(uID);			
-////			MemoLogic ml = new MemoLogic();
-////			memo = ml.getMemoData(memo);
-////		
-////			HttpSession session = request.getSession();
-////			session.setAttribute("aMemo", memo);
-////			
-////			//書籍情報編集画面へフォワード
-////			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/EditMemo.jsp");
-////			dispatcher.forward(request, response);
-////			
-////		}	
-//	}
-//}
-//		
+			BookLogic bo = new BookLogic(request);
+			bo.deleteBookData(request);
+	
+			//マイページへ
+			//JSPから受け取ったIDをintに変換
+			//ログインと同じメソッドを使いたいのでここでint変換
+			int uID = Integer.parseInt(userID);			
+			LoginLogic lo = new LoginLogic(request);
+			lo.toMypage(request, uID);
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/mypage.jsp");
+			dispatcher.forward(request, response);		
+			
+			
+		}else if ("addBook".equals(action)){
+		//書籍追加画面へ
+			
+			request.setAttribute("uID", id);
+			
+			//書籍情報編集画面へ
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/AddBook.jsp");
+			dispatcher.forward(request, response);
+		
+			
+		}else if ("addNewBook".equals(action)){
+		//書籍を追加し、書籍表示画面へ
+			
+			BookLogic bo = new BookLogic(request);
+			bo.addBook(request);
+			
+			//マイページへ
+			//JSPから受け取ったIDをintに変換
+			//ログインと同じメソッドを使いたいのでここでint変換
+			int uID = Integer.parseInt(userID);			
+			LoginLogic lo = new LoginLogic(request);
+			lo.toMypage(request, uID);
+
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/mypage.jsp");
+			dispatcher.forward(request, response);
+			
+			
+		} else if("bookList".equals(action)) {
+		//書籍リストと検索の画面へ.
+			
+			BookLogic bo= new BookLogic(request);
+			bo.BookList(request);
+			
+			//リスト・検索画面へ
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookList.jsp");
+			dispatcher.forward(request, response);	
+
+
+		} else if("getPaged".equals(action)) {
+		//書籍リストのページング
+
+			BookLogic bo= new BookLogic(request);
+			bo.getPaged(request);
+
+			//新規ページ
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookList.jsp");
+			dispatcher.forward(request, response);
+
+			
+		}else if ("memoList".equals(action)){
+		//アカウントメモを取得し、メモ編集画面へ
+
+			MemoLogic ml= new MemoLogic(request);
+			ml.MemoList(request);
+			
+			//書籍情報編集画面へフォワード
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/MemoList.jsp");
+			dispatcher.forward(request, response);
+			
+		}	
+	}
+}
+		

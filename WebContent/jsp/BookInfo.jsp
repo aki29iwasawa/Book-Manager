@@ -31,7 +31,7 @@
 				
 		<form action="/bm/BmServlet" method="post" name="form">
 		<button type="submit">編集</button>		
-		<input type="hidden" name="action" value="editBookInfo">
+		<input type="hidden" name="action" value="editBook">
 		<input type="hidden" name="bookID" value="${BookInfo.id}">
 		<input type="hidden" name="userID" value="${BookInfo.userID}">
 		

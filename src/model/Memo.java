@@ -2,6 +2,7 @@ package model;
 
 public class Memo {
 	
+	private int id;
 	private int userID;
 	private String memo;
 	
@@ -18,6 +19,13 @@ public class Memo {
 		this.memo = memo;
 	}
 	
-	public int getUserID() { return userID; }
+	public Memo(int id, String memo, int userID) {
+		this.id = id;
+		this.memo = memo;
+		this.userID = userID;
+	}
+	
+	public int id() { return id; }
 	public String getAccountMemo() { return memo; }
+	public int getUserID() { return userID; }
 }
