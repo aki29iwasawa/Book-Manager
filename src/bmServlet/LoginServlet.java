@@ -183,8 +183,8 @@ public class LoginServlet extends HttpServlet {
 		} else if ("getBookInfo".equals(action)){
 		//書籍の詳細を取得（一冊）し、書籍表示画面へ
 
-			BookLogic bo = new BookLogic(request);
-			bo.getBookInfo(request);
+			BookLogic bl = new BookLogic(request);
+			bl.getBookInfo(request);
 			
 			//書籍表示画面へ
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookInfo.jsp");
@@ -194,8 +194,8 @@ public class LoginServlet extends HttpServlet {
 		} else if ("editBook".equals(action)){
 		//書籍の詳細を取得し、情報編集画面へ
 
-			BookLogic bo = new BookLogic(request);
-			bo.getBookInfo(request);
+			BookLogic bl = new BookLogic(request);
+			bl.getBookInfo(request);
 			
 			//書籍情報編集画面へ
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/EditBook.jsp");
@@ -205,8 +205,8 @@ public class LoginServlet extends HttpServlet {
 		}else if ("updateBook".equals(action)){
 		//書籍情報を更新し、書籍表示画面へ
 		
-			BookLogic bo = new BookLogic(request);
-			bo.updateBook(request);
+			BookLogic bl = new BookLogic(request);
+			bl.updateBook(request);
 		
 			//書籍表示画面へ
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookInfo.jsp");
@@ -216,8 +216,8 @@ public class LoginServlet extends HttpServlet {
 		} else if("deleteBook".equals(action)) {
 		//書籍情報を削除
 			
-			BookLogic bo = new BookLogic(request);
-			bo.deleteBookData(request);
+			BookLogic bl = new BookLogic(request);
+			bl.deleteBookData(request);
 	
 			//マイページへ
 			//JSPから受け取ったIDをintに変換
@@ -241,7 +241,7 @@ public class LoginServlet extends HttpServlet {
 		
 			
 		}else if ("addNewBook".equals(action)){
-		//書籍を追加し、書籍表示画面へ
+		//書籍を追加し、マイページへ
 			
 			BookLogic bo = new BookLogic(request);
 			bo.addBook(request);
@@ -260,8 +260,8 @@ public class LoginServlet extends HttpServlet {
 		} else if("bookList".equals(action)) {
 		//書籍リストと検索の画面へ.
 			
-			BookLogic bo= new BookLogic(request);
-			bo.BookList(request);
+			BookLogic bl= new BookLogic(request);
+			bl.BookList(request);
 			
 			//リスト・検索画面へ
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookList.jsp");
@@ -271,23 +271,106 @@ public class LoginServlet extends HttpServlet {
 		} else if("getPaged".equals(action)) {
 		//書籍リストのページング
 
-			BookLogic bo= new BookLogic(request);
-			bo.getPaged(request);
+			BookLogic bl= new BookLogic(request);
+			bl.getPaged(request);
 
 			//新規ページ
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookList.jsp");
 			dispatcher.forward(request, response);
 
 			
+		}else if ("addMemo".equals(action)){
+		//メモ追加画面
+
+			request.setAttribute("uID", id);
+			
+			//メモ追加画面へ
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/AddMemo.jsp");
+			dispatcher.forward(request, response);
+			
+			
+		}else if ("addNewMemo".equals(action)){
+		//新規メモを追加し、マイページへ
+
+			MemoLogic ml= new MemoLogic(request);
+			ml.addMemo(request);
+			
+			//マイページへ
+			//JSPから受け取ったIDをintに変換
+			//ログインと同じメソッドを使いたいのでここでint変換
+			int uID = Integer.parseInt(id);			
+			LoginLogic lo = new LoginLogic(request);
+			lo.toMypage(request, uID);
+
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/mypage.jsp");
+			dispatcher.forward(request, response);
+			
+			
 		}else if ("memoList".equals(action)){
-		//アカウントメモを取得し、メモ編集画面へ
+		//アカウントメモを取得
 
 			MemoLogic ml= new MemoLogic(request);
 			ml.MemoList(request);
 			
-			//書籍情報編集画面へフォワード
+			//メモ全件表示画面へ
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/MemoList.jsp");
 			dispatcher.forward(request, response);
+
+		
+		} else if ("getMemoInfo".equals(action)){
+		//メモの詳細を取得（一つ）し、表示画面へ
+
+			MemoLogic ml= new MemoLogic(request);
+			ml.getMemoInfo(request);
+			
+			//書籍表示画面へ
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookInfo.jsp");
+			dispatcher.forward(request, response);	
+		
+
+			
+		} else if ("editMemo".equals(action)){
+		//書籍の詳細を取得し、情報編集画面へ
+			
+			BookLogic bo = new BookLogic(request);
+			bo.getBookInfo(request);
+			
+			//書籍情報編集画面へ
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/EditBook.jsp");
+			dispatcher.forward(request, response);	
+	
+			
+		}else if ("updateBook".equals(action)){
+		//メモを更新し、書籍表示画面へ
+		
+			BookLogic bo = new BookLogic(request);
+			bo.updateBook(request);
+		
+			//書籍表示画面へ
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookInfo.jsp");
+			dispatcher.forward(request, response);
+			
+			
+			
+		
+	
+
+//		} else if("deleteBook".equals(action)) {
+//		//書籍情報を削除
+//			
+//			BookLogic bo = new BookLogic(request);
+//			bo.deleteBookData(request);
+//	
+//			//マイページへ
+//			//JSPから受け取ったIDをintに変換
+//			//ログインと同じメソッドを使いたいのでここでint変換
+//			int uID = Integer.parseInt(userID);			
+//			LoginLogic lo = new LoginLogic(request);
+//			lo.toMypage(request, uID);
+//			
+//			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/mypage.jsp");
+//			dispatcher.forward(request, response);		
+//			
 			
 		}	
 	}

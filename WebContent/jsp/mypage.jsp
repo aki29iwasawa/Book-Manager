@@ -37,14 +37,20 @@
 		<h2 class="center">新規メモ</h2>
 		
 		<form action="/bm/BmServlet" method="post">
-		<button type="submit">全てのメモを見る</button>
-		<input type="hidden" name="action" value="memoList">
+		<button type="submit">新しくメモを追加</button>
+		<input type="hidden" name="action" value="addMemo">
 		<input type="hidden" name="id" value="${uInfo.id}">
 		</form>
 		
 		<c:forEach var="memo" items="${aMemo}">
-			<p>${memo.accountMemo}</p>
+			<p>${memo.memo}</p>
 		</c:forEach>
+		
+		<form action="/bm/BmServlet" method="post">
+		<button type="submit">全てのメモを見る</button>
+		<input type="hidden" name="action" value="memoList">
+		<input type="hidden" name="id" value="${uInfo.id}">
+		</form>
 
 		
 		<h2 class="center">最近追加した本</h2>

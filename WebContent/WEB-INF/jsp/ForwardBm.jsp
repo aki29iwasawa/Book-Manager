@@ -4,11 +4,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/forward.css">
 <title>Book Management</title>
 </head>
 <body>
 	<article>
-		<h1>フォワード画面</h1>
+		<h1>Book Manager</h1>
 		<p class="link"><a href="/bm/jsp/SignIn.jsp">アカウントにサインイン</a></p>
 		<p class="link"><a href="/bm/jsp/SignUp.jsp">新しくアカウントを作成</a></p>
 	</article>
