@@ -44,7 +44,7 @@ public class LoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		//フォワード
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/ForwardBm.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/FrontBm.jsp");
 		dispatcher.forward(request, response);
 		
 		
@@ -132,7 +132,7 @@ public class LoginServlet extends HttpServlet {
 //			session.invalidate();
 		
 			//トップページへ
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/ForwardBm.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/FrontBm.jsp");
 			dispatcher.forward(request, response);
 
 		}else if("toMypage".equals(action))  {
@@ -176,7 +176,7 @@ public class LoginServlet extends HttpServlet {
 			lo.deleteUser(request);
 
 			//トップページへ
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/ForwardBm.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/FrontBm.jsp");
 			dispatcher.forward(request, response);
 		
 

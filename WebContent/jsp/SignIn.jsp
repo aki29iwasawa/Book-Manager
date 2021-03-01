@@ -6,29 +6,32 @@
 <meta charset="UTF-8">
 <title>Book Management</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/sanitize.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/front.css">
 </head>
 <body>
-    <article>
-    <div class="center">
-	    <img src="${pageContext.request.contextPath}/img/logo.jpg" alt="ロゴ画像">
-    
-        <h1>Sign In</h1>
+	<div class="content">
+		<div class="mainLogo">
+			<img class="logo" src="${pageContext.request.contextPath}/img/logoW.png" alt="ロゴ画像">
+	    </div>
+	    
+		<div class="main">
+			<div class="text">
+				<img class="logo" src="${pageContext.request.contextPath}/img/logoB.png" alt="ロゴ画像">
+				<h1>Sign In</h1>
+					<form action="/bm/BmServlet" method="post" name="form">
+            			<p><label for="mail">メールアドレス</label></p>
+            			<input class="input-text" type="email" name="mail" id="mail" placeholder="Email">
+			
+			            <p><label for="password">パスワード</label></p>
+			            <input class="input-text" type="password" name="password" id="password" placeholder="●●●●●●">
+			
+			            <p><input class="btn btn-B" type="submit" value="Sign in" id="button"></p>
+			            <input type="hidden" name="action" value="SignIn">
+        			</form>
 
-        <form action="/bm/BmServlet" method="post" name="form">
-
-            <p><label for="mail">メールアドレス</label></p>
-            <input class="box" type="email" name="mail" id="mail" placeholder="Email">
-
-            <p><label for="password">パスワード</label></p>
-            <input class="box" type="password" name="password" id="password" placeholder="●●●●●●">
-
-            <input class="button" type="submit" value="Sign in" id="button">
-            <input type="hidden" name="action" value="SignIn">
-        </form>
-
-        <p class="link"><a href="${pageContext.request.contextPath}/jsp/SignUp.jsp">新しくアカウントを作成</a></p>
-    </div>
-	</article>
+					<p><a class="btn" href="${pageContext.request.contextPath}/jsp/SignUp.jsp">新しくアカウントを作成</a></p>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
