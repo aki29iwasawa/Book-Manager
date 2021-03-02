@@ -6,15 +6,15 @@
 <meta charset="UTF-8">
 <title>Book Management</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/sanitize.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/front.css">
 </head>
 <body>
-	<div class="content">
 		<div class="mainLogo">
 			<img class="logo" src="${pageContext.request.contextPath}/img/logoW.png" alt="ロゴ画像">
 	    </div>
 	    
-		<div class="main">
+		<article>
 			<div class="text">
 				<img class="logo" src="${pageContext.request.contextPath}/img/logoB.png" alt="ロゴ画像">
 				<h1>Sign In</h1>
@@ -25,13 +25,13 @@
 			            <p><label for="password">パスワード</label></p>
 			            <input class="input-text" type="password" name="password" id="password" placeholder="●●●●●●">
 			
-			            <p><input class="btn btn-B" type="submit" value="Sign in" id="button"></p>
+						<p><button class="btnB" type="submit" id="button">Sign In</button></p>
 			            <input type="hidden" name="action" value="SignIn">
         			</form>
 
-					<p><a class="btn" href="${pageContext.request.contextPath}/jsp/SignUp.jsp">新しくアカウントを作成</a></p>
+					<p><a class="btnW" href="${pageContext.request.contextPath}/jsp/SignUp.jsp">新しくアカウントを作成</a></p>
+					<p><a class="btnW" href="${pageContext.request.contextPath}/WEB-INF/jsp/FrontBm.jsp">トップへ戻る</a></p>
 			</div>
-		</div>
-	</div>
+		</article>
 </body>
 </html>

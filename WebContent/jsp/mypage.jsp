@@ -7,24 +7,33 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/sanitize.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/mypage.css">
 <title>Insert title here</title>
 </head>
 <body>
-	<article>
+	<nav>
+		<ul>
+			<li>アカウント情報</li>
+			<li>メモ一覧</li>
+			<li>書籍一覧</li>
+		</ul>
+	</nav>
+	<article id="scrolle">
 		<h1>マイページ</h1>
 		
 		<h2 class="center">アカウント情報</h2>
 		<p>${mess}</p>
 		
 		<form action="/bm/BmServlet" method="post">
-		<button type="submit">アカウント情報の編集・削除</button>
+		<button class="btnW" type="submit">アカウント情報の編集・削除</button>
 		<input type="hidden" name="action" value="toEditUserPage">
 		<input type="hidden" name="id" value="${uInfo.id}">
 		</form>
 		
 		<form action="/bm/BmServlet" method="post" onsubmit="return logOut()">
-		<button type="submit">ログアウト</button>
+		<button class="btnB" type="submit">ログアウト</button>
 		<input type="hidden" name="action" value="logOut">
 		<input type="hidden" name="id" value="${uInfo.id}">
 		</form>
@@ -37,7 +46,7 @@
 		<h2 class="center">新規メモ</h2>
 		
 		<form action="/bm/BmServlet" method="post">
-		<button type="submit">新しくメモを追加</button>
+		<button class="btnW" type="submit">新しくメモを追加</button>
 		<input type="hidden" name="action" value="addMemo">
 		<input type="hidden" name="id" value="${uInfo.id}">
 		</form>
@@ -47,7 +56,7 @@
 		</c:forEach>
 		
 		<form action="/bm/BmServlet" method="post">
-		<button type="submit">全てのメモを見る</button>
+		<button class="btnB" type="submit">全てのメモを見る</button>
 		<input type="hidden" name="action" value="memoList">
 		<input type="hidden" name="id" value="${uInfo.id}">
 		</form>
@@ -56,7 +65,7 @@
 		<h2 class="center">最近追加した本</h2>
 		
 		<form action="/bm/BmServlet" method="post">
-		<button type="submit">書籍を追加</button>
+		<button class="btnW" type="submit">書籍を追加</button>
 		<input type="hidden" name="action" value="addBook">
 		<input type="hidden" name="id" value="${uInfo.id}">
 		</form>
@@ -79,7 +88,7 @@
 		                    <td>${bk.title}</td>
 		                    <td>${bk.author}</td>
 		                    <td>${bk.publisher}</td>
-		                    <td><button type="submit">詳細</button></td>
+		                    <td><button class="btnW" type="submit">詳細</button></td>
 		                    
 		                    <input type="hidden" name="action" value="getBookInfo">
 							<input type="hidden" name="bookID" value="${bk.id}">
@@ -94,7 +103,7 @@
 		
 				
 		<form action="/bm/BmServlet" method="post">
-		<button type="submit">もっと見る<br>書籍一覧・検索画面へ</button>
+		<button class="btnB" type="submit">もっと見る<br>書籍一覧・検索画面へ</button>
 		<input type="hidden" name="action" value="bookList">
 		<input type="hidden" name="id" value="${uInfo.id}">
 		</form>		

@@ -46,13 +46,6 @@ public class LoginServlet extends HttpServlet {
 		//フォワード
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/FrontBm.jsp");
 		dispatcher.forward(request, response);
-		
-		
-//		//ログイン画面へフォワード
-//		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/SignIn.jsp");
-//		dispatcher.forward(request, response);
-		
-		
 	}
 
 	/**
@@ -69,25 +62,14 @@ public class LoginServlet extends HttpServlet {
 //		response.setContentType("application/pdf"); //PDFでもできる
 		
 		System.out.println(response.getCharacterEncoding());				
-//		PrintWriter out = response.getWriter();
 		
 		//リクエストパラメータを取得	
 		String action =request.getParameter("action");		
 		String id =request.getParameter("id");
 		
-//		String mail =request.getParameter("mail");
-//		String pass =request.getParameter("password");
-//		
-//		String bookID =request.getParameter("bookID");		
-////		String title =request.getParameter("title");
-////		String author =request.getParameter("author");
-////		String publisher =request.getParameter("publisher");
 		String userID =request.getParameter("userID");
-//		
-//		String pageNum =request.getParameter("pageNum");
-//		String direction =request.getParameter("direction");
-//		
-//		
+
+		
 		//リクエストの種類分け
 
 		if("SignUp".equals(action)) {

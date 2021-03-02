@@ -6,26 +6,27 @@
 <meta charset="UTF-8">
 <title>Book Management</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/sanitize.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/front.css">
 </head>
 <body>
-	<div class="content">
+
 		<div class="mainLogo">
 			<img  class="logo" src="${pageContext.request.contextPath}/img/logoW.png" alt="ロゴ画像">
 	    </div>
 	    
-		<div class="main">
+		<article>
 			<div class="text">
 				<img class="logo" src="${pageContext.request.contextPath}/img/logoB.png" alt="ロゴ画像">
 				<h1>Book<br>Management</h1>
-				<p><a class="btn" href="/bm/jsp/SignIn.jsp">アカウントにサインイン</a></p>
-				<p><a class="btn" href="/bm/jsp/SignIn.jsp">新しくアカウントを作成</a></p>
+				<p><a class="btnW" href="/bm/jsp/SignIn.jsp">アカウントにサインイン</a></p>
+				<p><a class="btnW" href="/bm/jsp/SignUp.jsp">新しくアカウントを作成</a></p>
 			</div>
-		</div>
+		</article>
 		
 		<div id="msg" data-message="${deleteMess}">	
 		</div>
-	</div>
+
 	
 	
 	<script>
