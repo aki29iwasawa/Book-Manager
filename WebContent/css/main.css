@@ -11,20 +11,28 @@ body{
 	color: #282828;
     font-size:1.6rem;
 	background-color: #c0c0c0;
+	
+	background-image: url("../img/Shelf.png");
+	background-size: cover;               
+	background-attachment: fixed;         
+	background-position: center center;
 }
 
 nav{
+	height: 100%;	
 	margin: 0 5% 0 10%;
 	width: 25%;
 	background-color: rgba(255, 255, 255, 0.750);
-	height: 100%;
-	
+}
+
+nav .logo{
+	width: 100%;
 }
 
 article{
 	background-color: rgba(255, 255, 255, 0.750);
 	height: 100%;
-    padding: 10px 30px 20px 30px;
+    padding: 3rem 4rem;
     flex-shrink: 0;
     min-width: 60%;
     margin-right: 20%;
@@ -52,9 +60,27 @@ article{
 	background: #000;
 }
 
+section{
+	background-color: rgba(255, 255, 255, 0.750);
+	margin: 3rem 0;
+	padding: 1.5rem 3rem;
+}
 
 h1{
-	font-size:3.5rem;
+	margin-top:0;
+}
+
+h1{
+	font-size: 3.5rem;
+	text-align:	center;
+}
+
+.bold{
+	font-weight: bold;
+}
+
+.indent{
+	text-indent: 1.6rem;
 }
 
 .btnW {

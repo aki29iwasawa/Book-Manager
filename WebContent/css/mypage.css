@@ -5,3 +5,26 @@ article{
     overflow: scroll;
     overflow-x: hidden;
 }
+
+.contents{
+	margin-left: 2rem;
+}
+
+.account{
+	display: flex;
+	margin-bottom: 1.5rem;
+}
+
+.icon-area{
+	margin: 2rem 4rem 2rem 0;
+}
+
+.icon{
+	margin: auto;
+	align-self: flex-start;
+	width: 10rem;
+}
+
+form{
+	margin-bottom: 2rem;
+}

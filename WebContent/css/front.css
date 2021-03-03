@@ -14,13 +14,14 @@ img{
 }
 
 h1{
-	margin-top:0;
+	text-align: initial;
 }
 
 article {
 	display: flex;
     margin-right: 10%;
-    max-width: 700px;
+    padding: 1rem 3rem 2rem 3rem;
+    min-width: 25% !important;
 }
 
 .text{
