@@ -18,14 +18,14 @@
 			<div class="text">
 				<img class="logo" src="${pageContext.request.contextPath}/img/logoB.png" alt="ロゴ画像">
 				<h1>Sign In</h1>
-					<form action="/bm/BmServlet" method="post" name="form">
+					<form action="/bm/BmServlet" method="post" id="form">
             			<p><label for="mail">メールアドレス</label></p>
             			<input class="input-text" type="email" name="mail" id="mail" placeholder="Email">
 			
 			            <p><label for="password">パスワード</label></p>
 			            <input class="input-text" type="password" name="password" id="password" placeholder="●●●●●●">
 			
-						<p><button class="btnB" type="submit" id="button">Sign In</button></p>
+						<p><button class="btnB" type="submit" id="button" onclick="return SignInCheck();">Sign In</button></p>
 			            <input type="hidden" name="action" value="SignIn">
         			</form>
 
@@ -33,5 +33,6 @@
 					<p><a class="btnW" href="${pageContext.request.contextPath}/WEB-INF/jsp/FrontBm.jsp">トップへ戻る</a></p>
 			</div>
 		</article>
+		<script src="../js/main.js"></script>
 </body>
 </html>

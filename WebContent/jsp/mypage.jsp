@@ -15,36 +15,38 @@
 <body>
 	<nav>
 		<img  class="logo" src="${pageContext.request.contextPath}/img/logoB.png" alt="ロゴ画像">
-		<ul>
-			<li>アカウント情報
-				<form action="/bm/BmServlet" method="post">
-					<button class="btnW" type="submit">アカウント情報の編集・削除</button>
-					<input type="hidden" name="action" value="toEditUserPage">
-					<input type="hidden" name="id" value="${uInfo.id}">
-				</form>
-			</li>
-			<li>新規メモ
-				<form action="/bm/BmServlet" method="post">
-					<button class="btnW" type="submit">新しくメモを追加</button>
-					<input type="hidden" name="action" value="addMemo">
-					<input type="hidden" name="id" value="${uInfo.id}">
-				</form>
-			</li>
-			<li>新規書籍
-				<form action="/bm/BmServlet" method="post">
-					<button class="btnW" type="submit">書籍を追加</button>
-					<input type="hidden" name="action" value="addBook">
-					<input type="hidden" name="id" value="${uInfo.id}">
-				</form>			
-			</li>
-		</ul>
-		<form action="/bm/BmServlet" method="post" onsubmit="return logOut()">
-			<button class="btnB" type="submit">ログアウト</button>
-			<input type="hidden" name="action" value="logOut">
-			<input type="hidden" name="id" value="${uInfo.id}">
-		</form>
+		<div>
+			<ul>
+				<li>
+					<form action="/bm/BmServlet" method="post">
+						<button class="btnW" type="submit">アカウント情報の編集・削除</button>
+						<input type="hidden" name="action" value="toEditUserPage">
+						<input type="hidden" name="id" value="${uInfo.id}">
+					</form>
+				</li>
+				<li>
+					<form action="/bm/BmServlet" method="post">
+						<button class="btnW" type="submit">新しくメモを追加</button>
+						<input type="hidden" name="action" value="addMemo">
+						<input type="hidden" name="id" value="${uInfo.id}">
+					</form>
+				</li>
+				<li>
+					<form action="/bm/BmServlet" method="post">
+						<button class="btnW" type="submit">書籍を追加</button>
+						<input type="hidden" name="action" value="addBook">
+						<input type="hidden" name="id" value="${uInfo.id}">
+					</form>			
+				</li>
+			</ul>
+			<form action="/bm/BmServlet" method="post" onsubmit="return logOut()">
+				<button class="btnB" type="submit">ログアウト</button>
+				<input type="hidden" name="action" value="logOut">
+				<input type="hidden" name="id" value="${uInfo.id}">
+			</form>
+		</div>
 	</nav>
-	<article id="scrolle">
+	<article class="scrolle">
 		<h1>Mypage</h1>
 		<section>
 			<h2 class="center">Account</h2>
@@ -86,7 +88,6 @@
 			<h2 class="center">New Books</h2>
 			<div class="contents">
 				<table>
-		        	<caption></caption>
 					<thead>
 		            	<tr>
 		                    <th scope="col">タイトル</th>
@@ -102,7 +103,7 @@
 			                    <td>${bk.title}</td>
 			                    <td>${bk.author}</td>
 			                    <td>${bk.publisher}</td>
-			                    <td><button class="btnW" type="submit">詳細</button></td>
+			                    <td><button class="btnW" type="submit">表示</button></td>
 			                    
 			                    <input type="hidden" name="action" value="getBookInfo">
 								<input type="hidden" name="bookID" value="${bk.id}">
@@ -113,15 +114,14 @@
 					</tbody>
 				</table>	
 				<form action="/bm/BmServlet" method="post">
-				<button class="btnB" type="submit">もっと見る<br>書籍一覧・検索画面へ</button>
-				<input type="hidden" name="action" value="bookList">
-				<input type="hidden" name="id" value="${uInfo.id}">
+					<button class="btnB" type="submit">もっと見る<br>書籍一覧・検索画面へ</button>
+					<input type="hidden" name="action" value="bookList">
+					<input type="hidden" name="id" value="${uInfo.id}">
 				</form>
 			</div>	
 		</section>
 	</article>
-	<div id="msg" data-message="${aMess}">	
-	</div>
+	<div id="msg" data-message="${aMess}">	</div>
 	<script>
 		window.onload = function() {
 			var element = document.getElementById("msg");

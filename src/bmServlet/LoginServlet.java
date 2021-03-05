@@ -74,15 +74,6 @@ public class LoginServlet extends HttpServlet {
 
 		if("SignUp".equals(action)) {
 		//アカウント登録
-			
-////パラメータチェックを別で作る			
-//			//パラメータチェック あとで（ログイン画面に戻る処理）
-//			if(mail == null || mail.length() == 0) {
-//				out.println("メールアドレスを入力してください");
-//			}
-//			if(pass == null || pass.length() == 0) {
-//				out.println("パスワードを入力してください");
-//			}
 
 			LoginLogic lo = new LoginLogic(request);
 			boolean result = lo.createAccount(request);
