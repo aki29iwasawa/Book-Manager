@@ -294,6 +294,11 @@ public class BookDAO {
 		}
 		return bookDatas;		
 	}
+	
+	public ArrayList<Book> searchBook(int uID, int pn) {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
+	}
 
 	//書籍追加
 	public boolean addBookData(Book nbook) {
@@ -343,5 +348,7 @@ public class BookDAO {
 		}
 		return true;
 		}
+
+
 
 }

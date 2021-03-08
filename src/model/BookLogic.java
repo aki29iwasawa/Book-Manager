@@ -127,6 +127,19 @@ public class BookLogic {
 		request.setAttribute("uID", uID);
 	}
 	
+	public void BookSerch(HttpServletRequest request) {
+		//JSPから受け取ったIDを数字に変換、初期ページ番号を設定
+		int uID = Integer.parseInt(id);
+		int pn = 0;
+		
+		//検索書籍一覧を取得
+		BookDAO dao = new BookDAO();
+		ArrayList<Book> books = dao.searchBook(uID, pn);
+		
+		request.setAttribute("books", books);
+		request.setAttribute("pageNum", 0);//ページは初期値0
+		request.setAttribute("uID", uID);
+	}	
 	
 	public void getPaged(HttpServletRequest request) {	
 		

@@ -54,6 +54,8 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.getCharacterEncoding();
 		
+		//type="submit"のあるなしAddMemo.jsp
+		
 //		System.out.println(response.getCharacterEncoding()); //文字化けしないように
 //		response.setCharacterEncoding("UTF-8");
 		
@@ -240,6 +242,15 @@ public class LoginServlet extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookList.jsp");
 			dispatcher.forward(request, response);	
 
+		} else if("bookSearch".equals(action)) {
+		//書籍リストと検索の画面へ.
+			
+			BookLogic bl= new BookLogic(request);
+			bl.BookSerch(request);
+			
+			//検索結果画面へ
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/BookList.jsp");
+			dispatcher.forward(request, response);	
 
 		} else if("getPaged".equals(action)) {
 		//書籍リストのページング

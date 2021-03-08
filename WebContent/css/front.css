@@ -21,7 +21,8 @@ article {
 	display: flex;
     margin-right: 10%;
     padding: 1rem 3rem 2rem 3rem;
-    min-width: 25% !important;
+    width: 25% !important;
+    min-width: 35rem;
 }
 
 .text{
