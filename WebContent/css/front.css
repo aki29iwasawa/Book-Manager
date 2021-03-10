@@ -2,6 +2,7 @@
 
 body {
 /*	height: 100%;*/
+	/**/
 	display: flex;
 	background-image: url("../img/Shelf.png");
 	background-size: cover;               
@@ -30,6 +31,9 @@ article {
 	margin:auto;
 }
 
+/*
+	ロゴ周辺のデザイン
+*/
 .mainLogo{
 	margin:auto;
 }

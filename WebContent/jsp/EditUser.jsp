@@ -64,6 +64,7 @@
 			<input type="hidden" name="id" value="${uInfo.id}">	
 		</form>
 		
+		
 		<form action="/bm/BmServlet" method="post" name="form" onsubmit="return deleteCheck();">
 		<button type="submit">アカウントを削除する</button>		
 		<input type="hidden" name="action" value="deleteUser">

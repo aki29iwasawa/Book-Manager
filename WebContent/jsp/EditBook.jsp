@@ -27,6 +27,7 @@
 						<input type="hidden" name="id" value="${BookInfo.userID}">
 					</form>
 				</li>
+				
 				<li>
 					<form action="/bm/BmServlet" method="post">
 						<button class="btnW" type="submit">書籍を追加</button>

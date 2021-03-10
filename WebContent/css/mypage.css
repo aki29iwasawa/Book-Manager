@@ -5,7 +5,8 @@ article{
 }
 
 .contents{
-	margin:0 0 2rem 2rem;
+	/*margin:0 0 2rem 2rem;*/
+	margin:2rem;
 }
 
 .account{
